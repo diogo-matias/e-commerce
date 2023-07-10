@@ -1,6 +1,20 @@
 import { ShoppingCartIcon, UserCircleIcon } from "@heroicons/react/24/outline";
+import { useEffect, useState } from "react";
 
 export function Header() {
+    const styleOffset = 100;
+    const [shouldUseMainStyle, setShouldUseMainStyle] = useState(false);
+
+    function defineStyle() {
+        const is = window.scrollY > styleOffset;
+
+        setShouldUseMainStyle(is);
+    }
+
+    useEffect(() => {
+        window.addEventListener("scroll", defineStyle);
+    }, []);
+
     function renderLogo() {
         return (
             <div className="col-start-1 col-end-2 hover:cursor-pointer">
@@ -14,10 +28,14 @@ export function Header() {
     }
 
     function renderInput() {
+        const mainStyle = shouldUseMainStyle
+            ? ""
+            : "bg-opacity-0 placeholder:text-white text-white focus:bg-white focus:text-black";
+
         return (
-            <div className="col-start-2 col-end-11">
+            <div className="col-start-3 col-end-10">
                 <input
-                    className="w-full rounded-3xl py-3 px-6 text-black text-sm focus:outline-none focus:shadow-outline placeholder:text-gray-400 placeholder:text-xs border"
+                    className={`${mainStyle} h-10 transition-all duration-500 w-full text-black rounded-3xl bg-white py-3 px-6 text-sm focus:outline-none focus:shadow-outline placeholder:text-gray-400 placeholder:text-xs border`}
                     id="username"
                     type="text"
                     placeholder="Quick Search..."
@@ -43,8 +61,12 @@ export function Header() {
         );
     }
 
+    const containerStyle = shouldUseMainStyle ? "bg-white shadow-xl" : "";
+
     return (
-        <header className="shadow-xl fixed z-2 mx-auto left-0 right-0 bg-white text-black flex align-center justify-center p-3 h-24">
+        <header
+            className={`${containerStyle} transition-all duration-500 fixed z-10 mx-auto left-0 right-0  text-black flex align-center justify-center p-3 h-24`}
+        >
             <div className=" container grid grid-cols-12 gap-10 flex items-center">
                 {renderLogo()}
                 {renderInput()}

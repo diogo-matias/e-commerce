@@ -7,7 +7,7 @@ function makeData() {
     };
 }
 
-const numberOfProducts = 10;
+const numberOfProducts = 15;
 
 function makeProductsData() {
     let data = [];
