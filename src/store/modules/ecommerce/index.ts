@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { FakeStoreApi } from "../../../api/ecommerce";
+import { StateType } from "./types";
 
 export const getAllProducts = createAsyncThunk(
     "@ecommerce/getAllProducts",
@@ -30,7 +31,7 @@ export const createUser = createAsyncThunk(
     }
 );
 
-const initialState = {
+const initialState: StateType = {
     products: [],
     selectedProduct: {},
     userInfo: {},

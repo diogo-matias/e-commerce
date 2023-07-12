@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { EcommerceActions } from "../../store/modules/ecommerce";
 import { formatPrice } from "../../utils/price";
 import { Carousel } from "../carousel";
+import { ProductType } from "../../store/modules/ecommerce/types";
 
 export function ProductList() {
     const dispatch = useAppDispatch();
@@ -48,14 +49,7 @@ export function ProductList() {
         );
     }
 
-    function renderProductCard(
-        item: {
-            title: string;
-            image: string;
-            price: number;
-        },
-        index: number
-    ) {
+    function renderProductCard(item: ProductType, index: number) {
         return (
             <div
                 className="col-span-6 md:col-span-3 w-full aspect-[2/3] mb-10 "
@@ -70,7 +64,7 @@ export function ProductList() {
                 </div>
                 <div className="px-[5%] pt-2 ">{item.title}</div>
                 <div className="px-[5%] font-bold">
-                    {formatPrice(item.price)}
+                    {formatPrice(Number(item.price))}
                 </div>
             </div>
         );

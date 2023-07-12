@@ -1,41 +1,43 @@
+import { useCallback, useEffect } from "react";
 import { Banner } from "../../components/banner";
 import { Carousel } from "../../components/carousel";
 import { Categories } from "../../components/categories";
 import { Header } from "../../components/header";
 import { ProductList } from "../../components/product-list";
+import { Breakpoint, GetBreakpointName } from "../../utils/breakpoints";
+import { useDispatch } from "react-redux";
+import { EcommerceActions } from "../../store/modules/ecommerce";
+import { useAppDispatch } from "../../hooks/redux";
+import { BestSellersCarousel } from "./components/best-sellers-carousel";
+import { CategoriesCarousel } from "./components/categories-carousel";
 
 export function Home() {
-    function renderBestSellersCarousel() {
-        return (
-            <div>
-                <div className="mt-12">
-                    <p className="my-6 text-[1.75rem] font-thin tracking-tight text-slate-900 md:text-4xl">
-                        <span className="font-semibold">Best</span> Sellers
-                    </p>
-                </div>
-                <Carousel itemsInARow={4.5} />
-            </div>
-        );
-    }
+    const breakpointMd = Breakpoint("lg");
+    const dispatch = useAppDispatch();
 
-    function renderCategoriesCarousel() {
-        return (
-            <div>
-                <div className="mt-12">
-                    <p className="my-6 text-[1.75rem] font-thin tracking-tight text-slate-900 md:text-4xl">
-                        <span className="font-semibold">Camisetas</span> top
-                    </p>
-                </div>
-                {/* <div className="w-1/2 mx-auto"> */}
-                <Carousel
-                    animate={false}
-                    itemsInARow={8.5}
-                    showControllers={false}
-                />
-                {/* </div> */}
-            </div>
-        );
-    }
+    useEffect(() => {
+        dispatch(EcommerceActions.getAllProducts());
+    }, []);
+
+    const renderBestSellersCarousel = useCallback(() => {
+        let itemsInRow = 5;
+
+        if (breakpointMd) {
+            itemsInRow = 2;
+        }
+
+        return <BestSellersCarousel itemsInARow={itemsInRow} />;
+    }, [breakpointMd]);
+
+    const renderCategoriesCarousel = useCallback(() => {
+        let itemsInRow = 4.5;
+
+        if (breakpointMd) {
+            itemsInRow = 2;
+        }
+
+        return <CategoriesCarousel itemsInARow={itemsInRow} />;
+    }, [breakpointMd]);
 
     return (
         <div>

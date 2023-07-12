@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 export function Categories() {
     const data = [
@@ -23,22 +24,29 @@ export function Categories() {
             redirect: "",
         },
     ];
+
     const numberOfItemsInRow = 4;
+    const [selectedCard, setSelectedCard] = useState<number | null>(null);
 
     function renderCard(item: any, index: number) {
         const pattern = (index + 1) % numberOfItemsInRow;
+        const isSelected = selectedCard === index;
 
-        const commonStyle = "h-[70vh] flex items-center justify-center";
+        const commonStyle =
+            "h-[50vh] md:aspect-square lg:h-[70vh] flex items-center justify-center";
         const padding = "20px";
+        const textColor = isSelected
+            ? "tracking-[10rem] text-white opacity-0"
+            : "text-white tracking-[1rem] ";
 
         let style: string = "";
 
         if (pattern === 1 || pattern === 0) {
-            style = "w-[50%] lg:w-[35%]";
+            style = "w-[100%] md:w-[50%] lg:w-[35%]";
         }
 
         if (pattern === 2 || pattern === 3) {
-            style = "w-[50%] lg:w-[65%]";
+            style = "w-[100%] md:w-[50%] lg:w-[65%]";
         }
 
         return (
@@ -51,13 +59,17 @@ export function Categories() {
                         height: `calc(100% - ${padding})`,
                         width: `calc(100% - ${padding})`,
                     }}
-                    className="relative rounded-lg bg-gray-100 overflow-hidden cursor-pointer"
+                    className="relative bg-gray-100 overflow-hidden cursor-pointer"
                 >
-                    <div className="w-full h-full absolute flex items-center justify-center bg-white bg-opacity-20 break-words pointer-events-none">
+                    <div
+                        className={`${textColor} w-full transition-all duration-500 h-full absolute z-10  flex items-center justify-center bg-white bg-opacity-20 break-words pointer-events-none`}
+                    >
                         <p
-                            className="text-[2.5rem] font-bold tracking-[1rem] text-white"
+                            className="text-[1.5rem] lg:text-[2.5rem] md:text-[1.5rem] font-bold "
                             style={{
-                                textShadow: "0px 0px 20px rgba(0,0,0,0.3)",
+                                textShadow: isSelected
+                                    ? ""
+                                    : "0px 0px 1em rgba(0,0,0,0.3)",
                             }}
                         >
                             {item.title.toUpperCase()}
@@ -67,6 +79,12 @@ export function Categories() {
                         whileHover={{
                             scale: 1.05,
                             transition: { duration: 0.3, ease: "easeOut" },
+                        }}
+                        onHoverStart={() => {
+                            setSelectedCard(index);
+                        }}
+                        onHoverEnd={() => {
+                            setSelectedCard(null);
                         }}
                         animate={{
                             scale: 1,
@@ -90,9 +108,5 @@ export function Categories() {
         });
     }
 
-    return (
-        <div className="min-h-screen w-full mt-10 flex flex-wrap">
-            {renderCards()}
-        </div>
-    );
+    return <div className="w-full mt-10 flex flex-wrap">{renderCards()}</div>;
 }

@@ -1,14 +1,30 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import { Breakpoint } from "../../utils/breakpoints";
 
 export function Banner() {
     const imagesArr = [
-        "https://secure-static.arezzo.com.br/medias/sys_master/arezzo/arezzo/h65/h38/h00/h00/11197763813406/Home-72h-Sand-lias-Desk.jpg",
-        "https://secure-static.arezzo.com.br/medias/sys_master/arezzo/arezzo/h2d/h36/h00/h00/11194751713310/-Home-Classy-Cruise-Materiais-Desk-Banner-Principal-4.jpg",
-        "https://secure-static.arezzo.com.br/medias/sys_master/arezzo/arezzo/h12/hc3/h00/h00/11192777834526/-Home-Ativa-o-Pretty-Shoes-Desk.jpg",
+        {
+            desktop:
+                "https://secure-static.arezzo.com.br/medias/sys_master/arezzo/arezzo/h65/h38/h00/h00/11197763813406/Home-72h-Sand-lias-Desk.jpg",
+            mobile: "https://secure-static.arezzo.com.br/medias/sys_master/arezzo/arezzo/h5b/he4/h00/h00/11206153142302/Home-Urban-Youth-Mobile.jpg",
+        },
+        {
+            desktop:
+                "https://secure-static.arezzo.com.br/medias/sys_master/arezzo/arezzo/h12/hc3/h00/h00/11192777834526/-Home-Ativa-o-Pretty-Shoes-Desk.jpg",
+
+            mobile: "https://secure-static.arezzo.com.br/medias/sys_master/arezzo/arezzo/h77/h1a/h00/h00/11206163628062/ID-Sele-o-at-R-199-Mobile.jpg",
+        },
+        {
+            desktop:
+                "https://secure-static.arezzo.com.br/medias/sys_master/arezzo/arezzo/h2d/h36/h00/h00/11194751713310/-Home-Classy-Cruise-Materiais-Desk-Banner-Principal-4.jpg",
+
+            mobile: "https://secure-static.arezzo.com.br/medias/sys_master/arezzo/arezzo/hdb/h49/h00/h00/11206152585246/Home-Sport-Ajuste-Mobile.jpg",
+        },
     ];
 
-    const animationTimeInMs = 1000;
+    const isMobile = Breakpoint("md");
+    const animationTimeInMs = isMobile ? 500 : 1000;
     const animationTimeInSec = animationTimeInMs / 1000;
     const autoSlideIntervalInMs = 6000;
 
@@ -128,6 +144,8 @@ export function Banner() {
                 className="absolute flex items-center justify-center h-full"
             >
                 {images.map((image, index) => {
+                    const src = isMobile ? image.mobile : image.desktop;
+
                     return (
                         <motion.div
                             key={`image-${index}`}
@@ -139,8 +157,8 @@ export function Banner() {
                                     height: "100%",
                                     objectFit: "cover",
                                 }}
-                                src={image}
-                                alt={image}
+                                src={src}
+                                alt={src}
                             />
                         </motion.div>
                     );
@@ -217,7 +235,7 @@ export function Banner() {
     return (
         <div>
             <div
-                className="relative w-[100vw] overflow-hidden h-[90vh]"
+                className="relative w-[100vw] overflow-hidden h-[100vh]"
                 ref={banner}
             >
                 {renderControllers()}
