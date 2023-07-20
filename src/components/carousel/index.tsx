@@ -239,6 +239,10 @@ export function Carousel(props: CarouselPropsType) {
         );
     }
 
+    useEffect(() => {
+        console.log("width", width);
+    }, [width]);
+
     return (
         <motion.div
             ref={banner}
@@ -257,9 +261,9 @@ export function Carousel(props: CarouselPropsType) {
                     x,
                 }}
                 drag="x"
-                onDragStart={() => setCanClick(false)}
-                onDragTransitionEnd={() => console.log("end")}
-                onDurationChange={() => console.log("wtf")}
+                onDragStart={() => {
+                    setCanClick(false);
+                }}
                 className="absolute cursor-grab flex"
             >
                 {renderImages()}

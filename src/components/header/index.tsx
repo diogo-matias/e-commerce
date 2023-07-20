@@ -4,19 +4,31 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { icon, solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { Logo } from "../logo";
+import { HeaderPropsType } from "./types";
+import { useNavigate } from "react-router-dom";
 
-export function Header() {
+export function Header(props: HeaderPropsType) {
+    const { shouldUseCustomStyle = true } = props;
+
+    const navigate = useNavigate();
+
     const styleOffset = 100;
     const [shouldUseMainStyle, setShouldUseMainStyle] = useState(false);
 
     function defineStyle() {
         const is = window.scrollY > styleOffset;
 
-        setShouldUseMainStyle(is);
+        if (shouldUseCustomStyle) {
+            setShouldUseMainStyle(is);
+        } else {
+            setShouldUseMainStyle(true);
+        }
     }
 
     useEffect(() => {
         window.addEventListener("scroll", defineStyle);
+
+        defineStyle();
     }, []);
 
     function renderLogo() {
@@ -24,7 +36,7 @@ export function Header() {
 
         return (
             <div className="col-start-1 col-end-3 sm:col-start-1 sm:col-end-2 flex items-center justify-center cursor-pointer h-full w-full overflow-hidden">
-                <div className="h-1/2">
+                <div onClick={() => navigate("/")} className="h-1/2">
                     <Logo color={logoColor} />
                 </div>
             </div>
@@ -98,12 +110,12 @@ export function Header() {
     }
 
     const containerStyle = shouldUseMainStyle
-        ? "bg-white shadow-xl"
+        ? `bg-white shadow-lg`
         : "bg-gradient-to-b from-[rgba(0,0,0,0.3)]";
 
     return (
         <header
-            className={`${containerStyle} fixed transition-all duration-500 h-24 z-50 mx-auto left-0 right-0 text-black flex align-center justify-center`}
+            className={`${containerStyle} fixed transition-all duration-500 h-20 z-50 mx-auto left-0 right-0 text-black flex align-center justify-center`}
         >
             <div className="container grid grid-cols-12 h-full flex items-center">
                 {renderLogo()}
