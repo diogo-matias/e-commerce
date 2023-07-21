@@ -2,37 +2,58 @@ import { useCallback, useEffect, useState } from "react";
 import { Header } from "../../components/header";
 import { Product } from "../../components/product";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { GetBreakpointName } from "../../utils/breakpoints";
 import { EcommerceActions } from "../../store/modules/ecommerce";
-import { ProductType } from "../../store/modules/ecommerce/types";
+import { FiltersType, ProductType } from "../../store/modules/ecommerce/types";
 import { ProductListFilterModal } from "../../components/modals/product-list-filter";
 import { BaseButton } from "../../components/base-button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
+import { useSearchParams } from "react-router-dom";
 
 export function ProductListScreen() {
+    const filteredProductList = useAppSelector(
+        (state) => state.ecommerce.filter.filteredProductList
+    );
     const products = useAppSelector((state) => state.ecommerce.products);
+
     const dispatch = useAppDispatch();
     const [page, setPage] = useState(1);
     const [numberOfPages, setNumberOfPages] = useState(0);
     const [formattedProducts, setFormattedProducts] = useState<ProductType[]>();
+
+    const [params] = useSearchParams();
+
+    const PARAMS: FiltersType = {
+        category: params.get("category") ?? "",
+        title: params.get("title") ?? "",
+        max_price: Number(params.get("max_price")) ?? 0,
+        min_price: Number(params.get("min_price")) ?? 0,
+    };
+
+    const paramsValues = Object.values(PARAMS) ?? [];
 
     const [shouldOpenFilterModal, setShouldOpenFilterModal] = useState(false);
 
     const formatProductList = useCallback(() => {
         const mmc = 12;
         const numberOfItems = page * mmc;
-        const result = products.slice(0, numberOfItems);
-        const numberOfPages = Math.ceil(products.length / mmc);
+        const result = filteredProductList.slice(0, numberOfItems);
+        const numberOfPages = Math.ceil(filteredProductList.length / mmc);
 
         setNumberOfPages(numberOfPages);
         setFormattedProducts(result);
-    }, [page, products]);
+    }, [page, filteredProductList]);
+
+    useEffect(() => {
+        dispatch(EcommerceActions.filter(PARAMS));
+    }, [...paramsValues, products]);
 
     useEffect(() => {
         formatProductList();
     }, [formatProductList]);
 
     useEffect(() => {
-        if (!products.length) {
+        if (!filteredProductList.length) {
             dispatch(EcommerceActions.getAllProducts());
         }
     }, []);
@@ -74,16 +95,23 @@ export function ProductListScreen() {
     function renderHeader() {
         return (
             <div className="py-1 mb-24">
-                <div className="absolute left-0 w-screen pb-4 py-2 border-b-[0.5px] border-gray-300 ">
-                    <div className="container flex gap-10 items-center  mx-auto px-4 md:px-0 ">
+                <div className="absolute left-0 w-screen pb-4 py-2 border-b-[0.5px] border-gray-300">
+                    <div className="container flex gap-10 items-center justify-between mx-auto px-4 sm:px-6 md:px-2 ">
                         <p className="text-3xl font-thin tracking-widest ">
                             ALL PRODUCTS
                         </p>
                         <BaseButton
-                            className="w-32"
+                            className="px-10 py-4 bg-transparent sm:bg-black "
+                            style={{ width: "150px" }}
                             onClick={() => setShouldOpenFilterModal(true)}
                         >
-                            FILTER
+                            <div className="flex gap-4 items-center h-full ">
+                                <FontAwesomeIcon
+                                    icon={solid("sliders")}
+                                    className="text-black sm:text-white text-2xl sm:text-base"
+                                />
+                                <div className="hidden sm:block">FILTER</div>
+                            </div>
                         </BaseButton>
                     </div>
                 </div>
@@ -96,6 +124,7 @@ export function ProductListScreen() {
             <div>
                 <Header />
                 <ProductListFilterModal
+                    params={PARAMS}
                     open={shouldOpenFilterModal}
                     onClose={() => setShouldOpenFilterModal(false)}
                 />

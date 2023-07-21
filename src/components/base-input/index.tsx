@@ -1,4 +1,3 @@
-import { InputHTMLAttributes } from "react";
 import { BaseInputType } from "./types";
 
 export function BaseInput(props: BaseInputType) {

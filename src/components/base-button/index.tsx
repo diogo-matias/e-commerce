@@ -14,9 +14,9 @@ export function BaseButton(props: BaseButtonProps) {
             className={`${className} h-12 w-full bg-black text-white cursor-pointer flex items-center justify-center`}
             {...otherProps}
         >
+            {children}
             <p className="font-light tracking-widest">
                 {uppercase ? label?.toUpperCase() : label}
-                {children}
             </p>
         </div>
     );

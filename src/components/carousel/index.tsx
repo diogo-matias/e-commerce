@@ -239,10 +239,6 @@ export function Carousel(props: CarouselPropsType) {
         );
     }
 
-    useEffect(() => {
-        console.log("width", width);
-    }, [width]);
-
     return (
         <motion.div
             ref={banner}
