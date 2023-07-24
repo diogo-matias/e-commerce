@@ -7,4 +7,5 @@ export type CarouselPropsType = {
     showControllers?: boolean;
     animationSpeed?: number;
     invertAnimation?: boolean;
+    onClick?: () => void;
 };

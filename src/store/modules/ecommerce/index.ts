@@ -7,7 +7,7 @@ import {
 import { FakeStoreApi } from "../../../api/ecommerce";
 import { FiltersType, ProductType, StateType } from "./types";
 import { Product } from "../../../api/ecommerce/types";
-import { filterLogic } from "./helpers";
+import { filterLogic, priceFilterLogic } from "./helpers";
 
 export const getAllProducts = createAsyncThunk(
     "@ecommerce/getAllProducts",
@@ -40,7 +40,7 @@ export const createUser = createAsyncThunk(
 
 const initialState: StateType = {
     products: [],
-    selectedProduct: {},
+    selectedProduct: null,
     userInfo: {},
     cartInfo: {},
     filter: {
@@ -59,26 +59,25 @@ const EcommerceSlice = createSlice({
     initialState: initialState,
     reducers: {
         filter(state, action: PayloadAction<FiltersType>) {
-            const result = filterLogic(state, action);
+            const filteredList = filterLogic(state, action);
+
+            const result = priceFilterLogic(filteredList, action);
 
             state.filter.filteredProductList = result;
         },
-
-        filterByPrice(
+        setSelectedProduct(
             state,
-            {
-                payload,
-            }: PayloadAction<{
-                minPrice: number;
-                maxPrice: number;
-                productsList: ProductType[];
-            }>
+            { payload }: PayloadAction<{ productId: string }>
         ) {
-            const { maxPrice, minPrice, productsList } = payload;
+            const { productId } = payload;
 
-            const result = productsList.filter((item) => {
-                return item.price <= maxPrice && item.price >= minPrice;
-            });
+            const selectedProduct = state.products.find(
+                (item) => item.id === productId
+            );
+
+            if (selectedProduct) {
+                state.selectedProduct = selectedProduct;
+            }
         },
     },
     extraReducers: ({ addCase }) => {

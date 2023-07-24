@@ -16,7 +16,7 @@ export type FiltersType = {
 
 export type StateType = {
     products: ProductType[];
-    selectedProduct: any;
+    selectedProduct: ProductType | null;
     userInfo: any;
     cartInfo: any;
     filter: {

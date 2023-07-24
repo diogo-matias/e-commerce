@@ -75,3 +75,20 @@ export function filterLogic(
 
     return result;
 }
+
+export function priceFilterLogic(
+    products: ProductType[],
+    { payload }: PayloadAction<FiltersType>
+) {
+    const result = products.filter((item) => {
+        if (
+            item.price >= payload.min_price &&
+            item.price <= payload.max_price
+        ) {
+            return item;
+        }
+        return false;
+    });
+
+    return result;
+}

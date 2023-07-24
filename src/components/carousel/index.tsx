@@ -11,6 +11,10 @@ import {
 import { off } from "process";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { CarouselPropsType } from "./types";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../constants/routes";
+import { ProductType } from "../../store/modules/ecommerce/types";
+import { formatPrice } from "../../utils/price";
 
 export function Carousel(props: CarouselPropsType) {
     const {
@@ -39,6 +43,9 @@ export function Carousel(props: CarouselPropsType) {
         "https://img.lojasrenner.com.br/item/638457149/large/3.jpg",
         "https://img.lojasrenner.com.br/banner/01-home/230706_HOME_VITRINEPROMO_JEANS_RESP_GERAL_2.png",
     ];
+
+    const navigate = useNavigate();
+
     let timer = useRef(0);
 
     const numberOfItemsInRow = itemsInARow;
@@ -124,6 +131,10 @@ export function Carousel(props: CarouselPropsType) {
         setOffsetWidth(Number(offsetWidth));
     }
 
+    function handleProductDetailNavigation(productId: string) {
+        navigate(ROUTES.PRODUCT_DETAIL.replace(":productId", productId));
+    }
+
     function handleArrowClick(goNext: boolean) {
         const currentXPosition = x.get();
         const maxRight = -width;
@@ -149,9 +160,9 @@ export function Carousel(props: CarouselPropsType) {
         setAnimation(currentXPosition + xDiff);
     }
 
-    function handleProductClick() {
+    function handleProductClick(item: ProductType) {
         if (canClick) {
-            window.alert("clicou");
+            handleProductDetailNavigation(item.id);
         }
         setCanClick(true);
     }
@@ -170,7 +181,7 @@ export function Carousel(props: CarouselPropsType) {
                                 width: itemWidth,
                             }}
                             className={`${padding} aspect-[9/16] h-full`}
-                            onClick={handleProductClick}
+                            onClick={() => handleProductClick(item)}
                         >
                             <img
                                 style={{
@@ -189,9 +200,11 @@ export function Carousel(props: CarouselPropsType) {
                                 className="text-[0.8rem] md:text-[1rem]"
                             >
                                 <p className="font-light mt-[2%] ">
-                                    Sandalia cano curto
+                                    {item.title}
                                 </p>
-                                <p className="font-bold">R$ 90,00</p>
+                                <p className="font-bold">
+                                    {formatPrice(item.price)}
+                                </p>
                             </div>
                         </motion.div>
                     );

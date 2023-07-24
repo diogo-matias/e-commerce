@@ -1,11 +1,15 @@
 import { useCallback } from "react";
 import { formatPrice } from "../../utils/price";
 import { ProductComponentType } from "./types";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../constants/routes";
 
 const TITLE_MAX_NUMBER_CHARACTERS = 50;
 
 export function Product(props: ProductComponentType) {
     const { product } = props;
+
+    const navigate = useNavigate();
 
     function formatTitle(title: string) {
         if (title.length > TITLE_MAX_NUMBER_CHARACTERS) {
@@ -17,9 +21,13 @@ export function Product(props: ProductComponentType) {
         return title;
     }
 
+    function handleClick() {
+        navigate(ROUTES.PRODUCT_DETAIL.replace(":productId", product.id));
+    }
+
     const renderContent = useCallback(() => {
         return (
-            <div className="w-full cursor-pointer">
+            <div className="w-full cursor-pointer" onClick={handleClick}>
                 <img
                     src={product.image}
                     alt={product.image}

@@ -47,12 +47,14 @@ export function ProductListFilterModal(props: ProductListFilterModalPropsType) {
     }, [maxPrice, minPrice]);
 
     function handleFilter() {
+        console.log("ENTROU NO FILTER");
+
         const path = location.pathname;
 
         const paramsArray = [
             { title: productTitle },
             { category: category },
-            { max_price: maxPrice },
+            { max_price: sliderValue },
             { min_price: minPrice },
         ];
 
@@ -92,85 +94,93 @@ export function ProductListFilterModal(props: ProductListFilterModalPropsType) {
     function renderInputs() {
         return (
             <div>
-                <div>
-                    <p className="px-4 font-semibold tracking-widest text-sm text-center">
-                        PRODUCT NAME
-                    </p>
+                <form onSubmit={handleFilter} onClick={handleFilter}>
+                    <div>
+                        <p className="px-4 font-semibold tracking-widest text-sm text-center">
+                            PRODUCT NAME
+                        </p>
 
-                    <BaseInput
-                        placeholder="Name..."
-                        className="mt-2"
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                            setProductTitle(e.target.value);
-                        }}
-                        value={productTitle}
-                    />
-                </div>
-                <div className="mt-10">
-                    <p className="px-4 font-semibold tracking-widest text-sm text-center">
-                        CATEGORY
-                    </p>
-                    <BaseInput
-                        placeholder="Category..."
-                        className="mt-2"
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                            setCategory(e.target.value);
-                        }}
-                        value={category}
-                    />
-                </div>
-                <div className="mt-10">
-                    <p className="px-4 font-semibold tracking-widest text-sm text-center">
-                        PRICE
-                    </p>
-                    <div className="flex justify-between  h-7">
-                        <div className="flex items-center">
-                            <div className="w-20">
-                                <BaseInput
-                                    type="number"
-                                    className="px-[8px] h-8 rounded-sm"
-                                    onChange={(
-                                        e: React.ChangeEvent<HTMLInputElement>
-                                    ) => {
-                                        setMinPrice(Number(e.target.value));
-                                    }}
-                                    value={minPrice}
-                                />
+                        <BaseInput
+                            placeholder="Name..."
+                            className="mt-2"
+                            onChange={(
+                                e: React.ChangeEvent<HTMLInputElement>
+                            ) => {
+                                setProductTitle(e.target.value);
+                            }}
+                            value={productTitle}
+                        />
+                    </div>
+                    <div className="mt-10">
+                        <p className="px-4 font-semibold tracking-widest text-sm text-center">
+                            CATEGORY
+                        </p>
+                        <BaseInput
+                            placeholder="Category..."
+                            className="mt-2"
+                            onChange={(
+                                e: React.ChangeEvent<HTMLInputElement>
+                            ) => {
+                                setCategory(e.target.value);
+                            }}
+                            value={category}
+                        />
+                    </div>
+                    <div className="mt-10">
+                        <p className="px-4 font-semibold tracking-widest text-sm text-center">
+                            PRICE
+                        </p>
+                        <div className="flex justify-between  h-7">
+                            <div className="flex items-center">
+                                <div className="w-20">
+                                    <BaseInput
+                                        type="number"
+                                        className="px-[8px] h-8 rounded-sm"
+                                        onChange={(
+                                            e: React.ChangeEvent<HTMLInputElement>
+                                        ) => {
+                                            setMinPrice(Number(e.target.value));
+                                        }}
+                                        value={minPrice}
+                                    />
+                                </div>
+                                <p className="font-light pl-2 text-gray-400 text-sm">
+                                    min
+                                </p>
                             </div>
-                            <p className="font-light pl-2 text-gray-400 text-sm">
-                                min
-                            </p>
+                            <div className="flex items-center">
+                                <p className="font-light pr-2 text-gray-400 text-sm">
+                                    max
+                                </p>
+                                <div className="w-20">
+                                    <BaseInput
+                                        type="number"
+                                        className="px-[8px] h-8 rounded-sm"
+                                        onChange={(
+                                            e: React.ChangeEvent<HTMLInputElement>
+                                        ) => {
+                                            setMaxPrice(Number(e.target.value));
+                                        }}
+                                        value={maxPrice}
+                                    />
+                                </div>
+                            </div>
                         </div>
-                        <div className="flex items-center">
-                            <p className="font-light pr-2 text-gray-400 text-sm">
-                                max
-                            </p>
-                            <div className="w-20">
-                                <BaseInput
-                                    type="number"
-                                    className="px-[8px] h-8 rounded-sm"
-                                    onChange={(
-                                        e: React.ChangeEvent<HTMLInputElement>
-                                    ) => {
-                                        setMaxPrice(Number(e.target.value));
-                                    }}
-                                    value={maxPrice}
-                                />
-                            </div>
+                        <input
+                            type="range"
+                            className={`${sliderThumbStyle} mt-6 appearance-none bg-gray-400 h-[4px] rounded-full w-full cursor-pointer`}
+                            onChange={(e) =>
+                                setSliderValue(Number(e.target.value))
+                            }
+                            value={sliderValue}
+                            max={maxPrice}
+                            min={minPrice}
+                        />
+                        <div className="my-4 text-green-700 font-thin">
+                            ${sliderValue.toFixed(2)}
                         </div>
                     </div>
-                    <input
-                        type="range"
-                        className={`${sliderThumbStyle} mt-6 appearance-none bg-gray-400 h-[4px] rounded-full w-full cursor-pointer`}
-                        onChange={(e) => setSliderValue(Number(e.target.value))}
-                        value={sliderValue}
-                        max={maxPrice}
-                        min={minPrice}
-                    />
-                    <div className="my-4 text-green-700 font-thin">
-                        ${sliderValue.toFixed(2)}
-                    </div>
-                </div>
+                </form>
             </div>
         );
     }

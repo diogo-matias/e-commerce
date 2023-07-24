@@ -26,8 +26,12 @@ export function ProductListScreen() {
     const PARAMS: FiltersType = {
         category: params.get("category") ?? "",
         title: params.get("title") ?? "",
-        max_price: Number(params.get("max_price")) ?? 0,
-        min_price: Number(params.get("min_price")) ?? 0,
+        max_price: params.get("max_price")
+            ? Number(params.get("max_price"))
+            : 1000,
+        min_price: params.get("min_price")
+            ? Number(params.get("max_price"))
+            : 0,
     };
 
     const paramsValues = Object.values(PARAMS) ?? [];
