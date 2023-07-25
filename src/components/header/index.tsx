@@ -25,6 +25,10 @@ export function Header(props: HeaderPropsType) {
         }
     }
 
+    function handleUserIconClick() {
+        navigate("/login");
+    }
+
     useEffect(() => {
         window.addEventListener("scroll", defineStyle);
 
@@ -60,7 +64,11 @@ export function Header(props: HeaderPropsType) {
         );
     }
 
-    function renderIcon(IconDefinition: IconDefinition, mobile?: any) {
+    function renderIcon(
+        IconDefinition: IconDefinition,
+        onClick?: () => void,
+        mobile?: any
+    ) {
         const textColor = shouldUseMainStyle ? "text-black" : "text-white";
         const hover = shouldUseMainStyle
             ? "hover:text-gray-500"
@@ -75,7 +83,10 @@ export function Header(props: HeaderPropsType) {
         }
 
         return (
-            <div className={`${style} h-[50%]  cursor-pointer`}>
+            <div
+                className={`${style} h-[50%]  cursor-pointer`}
+                onClick={onClick}
+            >
                 <FontAwesomeIcon
                     icon={IconDefinition}
                     className={`${textColor} ${hover} h-full transition-all`}
@@ -96,12 +107,14 @@ export function Header(props: HeaderPropsType) {
                     {renderIcon(
                         icon({
                             name: "user",
-                        })
+                        }),
+                        handleUserIconClick
                     )}
                     {renderIcon(
                         icon({
                             name: "bars",
                         }),
+                        () => {},
                         true
                     )}
                 </div>

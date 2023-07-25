@@ -4,15 +4,14 @@ import {
     createSlice,
     current,
 } from "@reduxjs/toolkit";
-import { FakeStoreApi } from "../../../api/ecommerce";
+import { EcommerceApi } from "../../../api/ecommerce";
 import { FiltersType, ProductType, StateType } from "./types";
-import { Product } from "../../../api/ecommerce/types";
 import { filterLogic, priceFilterLogic } from "./helpers";
 
 export const getAllProducts = createAsyncThunk(
     "@ecommerce/getAllProducts",
     async () => {
-        const response = await FakeStoreApi.getAllProducts();
+        const response = await EcommerceApi.getAllProducts();
 
         return response as any;
     }
@@ -23,7 +22,7 @@ export const getOneProducts = createAsyncThunk(
     async (payload: { id: string }) => {
         const { id } = payload;
 
-        const response = await FakeStoreApi.getOneProduct(id);
+        const response = await EcommerceApi.getOneProduct(id);
 
         return response as any;
     }
@@ -32,7 +31,7 @@ export const getOneProducts = createAsyncThunk(
 export const createUser = createAsyncThunk(
     "@ecommerce/getOneProducts",
     async (payload: { email: string; password: string }) => {
-        const response = await FakeStoreApi.createUser(payload);
+        const response = await EcommerceApi.createUser(payload);
 
         return response as any;
     }

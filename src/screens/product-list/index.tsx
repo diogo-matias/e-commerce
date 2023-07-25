@@ -57,9 +57,9 @@ export function ProductListScreen() {
     }, [formatProductList]);
 
     useEffect(() => {
-        if (!filteredProductList.length) {
-            dispatch(EcommerceActions.getAllProducts());
-        }
+        // if (!filteredProductList.length) {
+        //     dispatch(EcommerceActions.getAllProducts());
+        // }
     }, []);
 
     function renderMore() {

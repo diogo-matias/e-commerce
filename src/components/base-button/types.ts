@@ -5,5 +5,5 @@ type CustomProps = {
     labelColor?: string;
 };
 
-export type BaseButtonProps = React.HTMLAttributes<HTMLDivElement> &
+export type BaseButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
     CustomProps;

@@ -13,9 +13,9 @@ export function ProductList() {
 
     const categories = ["Bolsas", "Sapatos", "Jaqueta"];
 
-    useEffect(() => {
-        dispatch(EcommerceActions.getAllProducts());
-    });
+    // useEffect(() => {
+    //     dispatch(EcommerceActions.getAllProducts());
+    // });
 
     function handleSelectCategory(index: number) {
         setCategoryIndex(index);

@@ -2,7 +2,7 @@ import Api from "../api";
 import { Product } from "./types";
 // require("dotenv").config();
 
-export class _FakeStoreApi {
+export class _EcommerceApi {
     api: Api;
 
     constructor() {
@@ -31,4 +31,4 @@ export class _FakeStoreApi {
     }
 }
 
-export const FakeStoreApi = new _FakeStoreApi();
+export const EcommerceApi = new _EcommerceApi();

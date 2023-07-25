@@ -4,6 +4,7 @@ import { ProductListScreen } from "./product-list";
 import { ROUTES } from "../constants/routes";
 import { ProductDetailScreen } from "./product-detail";
 import { PrivateRoutes } from "../auth/routes.auth";
+import { LoginScreen } from "./login";
 
 export default function Router() {
     return (
@@ -18,6 +19,7 @@ export default function Router() {
                     path={ROUTES.PRODUCT_DETAIL}
                     Component={ProductDetailScreen}
                 />
+                <Route path={ROUTES.LOGIN} Component={LoginScreen} />
 
                 <Route element={<PrivateRoutes />}></Route>
             </Routes>

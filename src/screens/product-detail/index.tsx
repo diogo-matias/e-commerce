@@ -20,9 +20,9 @@ export function ProductDetailScreen() {
     const suggestedProducts = selectSuggestedProducts();
 
     useEffect(() => {
-        if (!products) {
-            dispatch(EcommerceActions.getAllProducts());
-        }
+        // if (!products) {
+        //     dispatch(EcommerceActions.getAllProducts());
+        // }
 
         dispatch(
             EcommerceActions.setSelectedProduct({
@@ -134,7 +134,7 @@ export function ProductDetailScreen() {
 
     return (
         <div>
-            <Header />
+            <Header shouldUseCustomStyle={false} />
             <div className="container pt-36 mx-auto flex-col items-center justify-center">
                 {renderPage()}
             </div>

@@ -1,7 +1,9 @@
 import { InputHTMLAttributes } from "react";
 
-// type customProps = {
-//     clas
-// }
+type CustomProps = {
+    hasError?: boolean;
+    errorMessage?: string;
+    containerStyle?: string;
+};
 
-export type BaseInputType = InputHTMLAttributes<HTMLElement>;
+export type BaseInputType = InputHTMLAttributes<HTMLElement> & CustomProps;

@@ -6,18 +6,22 @@ export function BaseButton(props: BaseButtonProps) {
         uppercase = false,
         className,
         children,
+        type,
         ...otherProps
     } = props;
 
     return (
-        <div
+        <button
+            type={type ?? "button"}
             className={`${className} h-12 w-full bg-black text-white cursor-pointer flex items-center justify-center`}
             {...otherProps}
         >
-            {children}
-            <p className="font-light tracking-widest">
-                {uppercase ? label?.toUpperCase() : label}
-            </p>
-        </div>
+            <div>
+                {children}
+                <p className="font-light tracking-widest">
+                    {uppercase ? label?.toUpperCase() : label}
+                </p>
+            </div>
+        </button>
     );
 }
