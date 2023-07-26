@@ -18,7 +18,12 @@ const ToastSlice = createSlice({
             state.message = payload.message;
             state.type = "success";
         },
-        close(state) {
+        fail(state, { payload }: PayloadAction<{ message: string }>) {
+            state.open = true;
+            state.message = payload.message;
+            state.type = "fail";
+        },
+        close() {
             return initialState;
         },
     },

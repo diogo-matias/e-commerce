@@ -5,6 +5,7 @@ import { ROUTES } from "../constants/routes";
 import { ProductDetailScreen } from "./product-detail";
 import { PrivateRoutes } from "../auth/routes.auth";
 import { LoginScreen } from "./login";
+import { CartScreen } from "./cart";
 
 export default function Router() {
     return (
@@ -21,7 +22,9 @@ export default function Router() {
                 />
                 <Route path={ROUTES.LOGIN} Component={LoginScreen} />
 
-                <Route element={<PrivateRoutes />}></Route>
+                <Route element={<PrivateRoutes />}>
+                    <Route path={ROUTES.CART} Component={CartScreen} />
+                </Route>
             </Routes>
         </BrowserRouter>
     );

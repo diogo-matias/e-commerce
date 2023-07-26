@@ -3,3 +3,12 @@ export type CreateUserPayloadType = {
     email: string;
     password: string;
 };
+
+export type LoginPayloadType = {
+    email: string;
+    password: string;
+};
+
+export type GetUserInfoPayloadType = {
+    userId: string;
+};

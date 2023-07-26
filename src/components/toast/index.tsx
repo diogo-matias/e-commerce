@@ -4,43 +4,84 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { ToastActions } from "../../store/modules/toast";
+import { ToastStyleTypes } from "./types";
 
 const TOAST_TIMEOUT_MS = 3000;
-const ANIMATION_TIMEOUT_MS = 2000;
+const ANIMATION_TIMEOUT_MS = 100;
+
+const COLORS = {
+    GREEN: "#00a305",
+    RED: "#a30b00",
+    YELLOW: "#c2a800",
+};
 
 export function Toast() {
     const dispatch = useAppDispatch();
+
     const { open, message, type } = useAppSelector((state) => state.toast);
 
     const [animationDirection, setAnimationDirection] = useState([100, 0]);
     const [opacity, setOpacity] = useState([0, 100]);
 
+    const [customStyle, setCustomStyle] = useState(
+        handleToastStyleBasedOnType()
+    );
+
+    const { backgroundColor, icon, title } = customStyle;
+
     useEffect(() => {
-        let timer: any;
-        let timer2: any;
+        if (open) {
+            handleOpen();
 
-        // if (open) {
-        //     timer = setTimeout(() => {
-        //         dispatch(ToastActions.close());
-        //     }, TOAST_TIMEOUT_MS);
+            setTimeout(() => {
+                handleClose();
+            }, TOAST_TIMEOUT_MS);
+        }
 
-        //     setTimeout(() => {
-        //         handleClose();
-        //     }, ANIMATION_TIMEOUT_MS);
-        // }
-
-        return () => {
-            clearTimeout(timer2);
-            clearTimeout(timer);
-        };
+        setCustomStyle(handleToastStyleBasedOnType());
     }, [open, message, type, dispatch]);
 
-    function handleClose() {
+    function handleToastStyleBasedOnType(): ToastStyleTypes {
+        switch (type) {
+            case "success":
+                return {
+                    backgroundColor: COLORS.GREEN,
+                    icon: solid("check"),
+                    title: "SUCCESS",
+                };
+            case "fail":
+                return {
+                    backgroundColor: COLORS.RED,
+                    icon: solid("xmark"),
+                    title: "FAIL",
+                };
+
+            default:
+                return {
+                    backgroundColor: COLORS.YELLOW,
+                    icon: solid("triangle-exclamation"),
+                    title: "WARNING",
+                };
+        }
+    }
+
+    function handleOpen() {
         handleAnimationDirection(true);
     }
 
-    function handleAnimationDirection(isClosing: boolean) {
-        if (isClosing) {
+    function handleClose() {
+        handleAnimationDirection(false);
+
+        setTimeout(() => {
+            dispatch(ToastActions.close());
+        }, ANIMATION_TIMEOUT_MS);
+    }
+
+    function handleAnimationDirection(isOpening: boolean) {
+        if (isOpening) {
+            setAnimationDirection([100, 0]);
+            setOpacity([0, 100]);
+        } else {
             setAnimationDirection([0, 100]);
             setOpacity([100, 0]);
         }
@@ -54,8 +95,8 @@ export function Toast() {
         return (
             <motion.div
                 animate={{ y: animationDirection, opacity }}
-                style={{ bottom: 10, right: 10 }}
-                className={`fixed z-[999] bg-green-500 text-white font-extralight tracking-tight px-28 py-10 rounded-lg`}
+                style={{ bottom: 10, right: 10, backgroundColor }}
+                className={`fixed z-[999] text-white font-extralight tracking-tight pl-4 pr-24 py-5 rounded-lg`}
             >
                 <div
                     onClick={() => handleClose()}
@@ -63,7 +104,19 @@ export function Toast() {
                 >
                     <FontAwesomeIcon icon={solid("xmark")} size="xl" />
                 </div>
-                <p>USER CREATED SUCCESSFULLY</p>
+                <div className="flex w-full  items-center justify-center gap-5">
+                    <div className="bg-white h-10 p-2 aspect-square flex items-center justify-center rounded-full">
+                        <FontAwesomeIcon
+                            style={{ color: backgroundColor }}
+                            className={`text-${backgroundColor}`}
+                            icon={icon}
+                        />
+                    </div>
+                    <div>
+                        <p className="font-bold">{title}</p>
+                        <p className="font-normal">{message}</p>
+                    </div>
+                </div>
             </motion.div>
         );
     }

@@ -6,6 +6,7 @@ import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { Logo } from "../logo";
 import { HeaderPropsType } from "./types";
 import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../constants/routes";
 
 export function Header(props: HeaderPropsType) {
     const { shouldUseCustomStyle = true } = props;
@@ -26,7 +27,11 @@ export function Header(props: HeaderPropsType) {
     }
 
     function handleUserIconClick() {
-        navigate("/login");
+        navigate(ROUTES.LOGIN);
+    }
+
+    function handleCartIconClick() {
+        navigate(ROUTES.CART);
     }
 
     useEffect(() => {
@@ -95,14 +100,15 @@ export function Header(props: HeaderPropsType) {
         );
     }
 
-    function renderButtons() {
+    function renderIcons() {
         return (
             <div className="col-start-10 col-end-13 w-full h-full flex items-center text-black ">
                 <div className="h-1/2 flex items-center justify-center gap-0 sm:gap-10 w-full ">
                     {renderIcon(
                         icon({
                             name: "cart-shopping",
-                        })
+                        }),
+                        handleCartIconClick
                     )}
                     {renderIcon(
                         icon({
@@ -133,7 +139,7 @@ export function Header(props: HeaderPropsType) {
             <div className="container grid grid-cols-12 h-full flex items-center">
                 {renderLogo()}
                 {renderInput()}
-                {renderButtons()}
+                {renderIcons()}
             </div>
         </header>
     );
