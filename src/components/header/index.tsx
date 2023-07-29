@@ -9,17 +9,29 @@ import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../constants/routes";
 import ClickAwayListener from "react-click-away-listener";
 import { motion } from "framer-motion";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { EcommerceActions } from "../../store/modules/ecommerce";
+import { useDebounce } from "usehooks-ts";
+import { ProductType } from "../../store/modules/ecommerce/types";
 
 export function Header(props: HeaderPropsType) {
     const { shouldUseCustomStyle = true } = props;
 
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
 
     const styleOffset = 100;
     const [shouldUseMainStyle, setShouldUseMainStyle] = useState(false);
     const [openModal, setOpenModal] = useState(false);
     const [animationDirection, setAnimationDirection] = useState(true);
     const [autocompleteOpacity, setAutocompleteOpacity] = useState(100);
+
+    const [inputValue, setInputValue] = useState("");
+    const debounceValue = useDebounce(inputValue, 500);
+
+    const filteredProductList = useAppSelector(
+        (state) => state.ecommerce.filter.filteredProductList
+    );
 
     function defineStyle() {
         const is = window.scrollY > styleOffset;
@@ -71,6 +83,28 @@ export function Header(props: HeaderPropsType) {
         );
     }
 
+    function handlePressEnter(e: any) {
+        if (e.key === "Enter") {
+            navigate(`${ROUTES.PRODUCT_LIST}?title=${inputValue}`);
+            setInputValue("");
+        }
+    }
+
+    useEffect(() => {
+        dispatch(
+            EcommerceActions.filter({
+                title: debounceValue,
+                category: "",
+                max_price: 999999,
+                min_price: 0,
+            })
+        );
+    }, [debounceValue]);
+
+    function onSuggestionItemClick(product: ProductType) {
+        navigate(ROUTES.PRODUCT_DETAIL.replace(":productId", product.id));
+    }
+
     function renderInput() {
         const mainStyle = shouldUseMainStyle
             ? ""
@@ -89,16 +123,29 @@ export function Header(props: HeaderPropsType) {
                     onBlur={() => {
                         setAutocompleteOpacity(0);
                     }}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    value={inputValue}
+                    onKeyDown={handlePressEnter}
                 />
                 <div className="relative bg-red-600 w-full">
                     <motion.div
                         animate={{ opacity: autocompleteOpacity }}
                         className="absolute text-sm overflow-hidden transition-all pt-10 -z-10 bg-gray-100 right-0 left-0 -translate-y-10 rounded-3xl"
                     >
-                        <div>Product 12</div>
-                        <div>a</div>
-                        <div>a</div>
-                        <div>a</div>
+                        {filteredProductList.map((item, index) => {
+                            if (index > 3 || !inputValue) {
+                                return null;
+                            }
+
+                            return (
+                                <div
+                                    className="h-10 hover:bg-gray-200 transition-all flex items-center cursor-pointer pl-5 text-sm font-light"
+                                    onClick={() => onSuggestionItemClick(item)}
+                                >
+                                    {item.title}
+                                </div>
+                            );
+                        })}
                     </motion.div>
                 </div>
             </div>

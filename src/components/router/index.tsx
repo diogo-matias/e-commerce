@@ -10,7 +10,10 @@ export function RouterService() {
     const route = useAppSelector((state) => state.navigation.route);
 
     useEffect(() => {
-        dispatch(NavigationActions.navigate(window.location.pathname));
+        console.log(window.location.search);
+        const navigateRoute = window.location.pathname + window.location.search;
+
+        dispatch(NavigationActions.navigate(navigateRoute));
     }, [window.location.pathname, dispatch]);
 
     useEffect(() => {

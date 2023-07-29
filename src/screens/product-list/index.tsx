@@ -50,6 +50,8 @@ export function ProductListScreen() {
 
     useEffect(() => {
         dispatch(EcommerceActions.filter(PARAMS));
+
+        console.log("filtrou");
     }, [...paramsValues, products]);
 
     useEffect(() => {
