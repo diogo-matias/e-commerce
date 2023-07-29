@@ -7,6 +7,8 @@ import { Logo } from "../logo";
 import { HeaderPropsType } from "./types";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../constants/routes";
+import ClickAwayListener from "react-click-away-listener";
+import { motion } from "framer-motion";
 
 export function Header(props: HeaderPropsType) {
     const { shouldUseCustomStyle = true } = props;
@@ -15,6 +17,9 @@ export function Header(props: HeaderPropsType) {
 
     const styleOffset = 100;
     const [shouldUseMainStyle, setShouldUseMainStyle] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
+    const [animationDirection, setAnimationDirection] = useState(true);
+    const [autocompleteOpacity, setAutocompleteOpacity] = useState(100);
 
     function defineStyle() {
         const is = window.scrollY > styleOffset;
@@ -40,6 +45,20 @@ export function Header(props: HeaderPropsType) {
         defineStyle();
     }, []);
 
+    function handleClose() {
+        setAnimationDirection(false);
+
+        setTimeout(() => {
+            setOpenModal(false);
+        }, 200);
+    }
+
+    function handleModalOpen() {
+        setAnimationDirection(true);
+
+        setOpenModal(true);
+    }
+
     function renderLogo() {
         const logoColor = shouldUseMainStyle ? "black" : "white";
 
@@ -58,13 +77,30 @@ export function Header(props: HeaderPropsType) {
             : "text-white focus:bg-white focus:text-black";
 
         return (
-            <div className="col-start-4 col-end-10 sm:col-start-3 w-full h-full flex items-center justify-center">
+            <div className="col-start-4 relative col-end-10 sm:col-start-3 w-full h-full flex flex-col items-center justify-center">
                 <input
                     className={`${mainStyle} h-10 transition-all duration-500 w-full text-black rounded-3xl bg-white py-3 px-6 text-sm focus:outline-none focus:shadow-outline placeholder:text-gray-400 placeholder:text-xs border`}
                     id="username"
                     type="text"
                     placeholder="Quick Search..."
-                ></input>
+                    onFocus={() => {
+                        setAutocompleteOpacity(100);
+                    }}
+                    onBlur={() => {
+                        setAutocompleteOpacity(0);
+                    }}
+                />
+                <div className="relative bg-red-600 w-full">
+                    <motion.div
+                        animate={{ opacity: autocompleteOpacity }}
+                        className="absolute text-sm overflow-hidden transition-all pt-10 -z-10 bg-gray-100 right-0 left-0 -translate-y-10 rounded-3xl"
+                    >
+                        <div>Product 12</div>
+                        <div>a</div>
+                        <div>a</div>
+                        <div>a</div>
+                    </motion.div>
+                </div>
             </div>
         );
     }
@@ -120,10 +156,70 @@ export function Header(props: HeaderPropsType) {
                         icon({
                             name: "bars",
                         }),
-                        () => {},
+                        () => {
+                            handleModalOpen();
+                        },
                         true
                     )}
                 </div>
+            </div>
+        );
+    }
+
+    function mobileMenuItem(icon: any, label: string, onClick: () => void) {
+        return (
+            <div
+                onClick={onClick}
+                className="flex items-center px-3 h-10 border-y py-6 cursor-pointer"
+            >
+                <div className="pr-3">
+                    <FontAwesomeIcon icon={icon} />
+                </div>
+                <p className="font-light">{label}</p>
+            </div>
+        );
+    }
+
+    function renderMobileModal() {
+        if (!openModal) {
+            return;
+        }
+
+        return (
+            <div className="fixed h-screen w-screen z-[50]">
+                <ClickAwayListener
+                    onClickAway={() => {
+                        handleClose();
+                    }}
+                >
+                    <motion.div
+                        animate={{
+                            x: animationDirection ? [300, 0] : [0, 300],
+                        }}
+                        transition={{
+                            ease: "easeOut",
+                            duration: 0.2,
+                        }}
+                        className="sm:hidden absolute h-full w-[40vw] bg-gray-100 right-0"
+                        style={{
+                            boxShadow: "-10px 0px 15px rgba(0,0,0,0.2)",
+                        }}
+                    >
+                        <p className="uppercase font-thin text-center my-5 tracking-widest">
+                            Menu
+                        </p>
+                        {mobileMenuItem(
+                            solid("user"),
+                            "Account",
+                            handleUserIconClick
+                        )}
+                        {mobileMenuItem(
+                            solid("cart-shopping"),
+                            "Cart",
+                            handleCartIconClick
+                        )}
+                    </motion.div>
+                </ClickAwayListener>
             </div>
         );
     }
@@ -133,14 +229,17 @@ export function Header(props: HeaderPropsType) {
         : "bg-gradient-to-b from-[rgba(0,0,0,0.3)]";
 
     return (
-        <header
-            className={`${containerStyle} fixed transition-all duration-500 h-20 z-50 mx-auto left-0 right-0 text-black flex align-center justify-center`}
-        >
-            <div className="container grid grid-cols-12 h-full flex items-center">
-                {renderLogo()}
-                {renderInput()}
-                {renderIcons()}
-            </div>
-        </header>
+        <div>
+            <header
+                className={`${containerStyle} fixed transition-all duration-500 h-20 z-50 mx-auto left-0 right-0 text-black flex align-center justify-center`}
+            >
+                <div className="container grid grid-cols-12 h-full items-center">
+                    {renderLogo()}
+                    {renderInput()}
+                    {renderIcons()}
+                </div>
+            </header>
+            {renderMobileModal()}
+        </div>
     );
 }

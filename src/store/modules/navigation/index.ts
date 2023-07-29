@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { StateType } from "./types";
 import { ROUTES } from "../../../constants/routes";
 
@@ -9,11 +9,15 @@ const initialState: StateType = {
 const NavigationSlice = createSlice({
     name: "@navigation",
     initialState: initialState,
-    reducers: {},
+    reducers: {
+        navigate(state, { payload }: PayloadAction<string>) {
+            state.route = payload;
+        },
+    },
     extraReducers: ({ addCase }) => {},
 });
 
-export const UserActions = {
+export const NavigationActions = {
     ...NavigationSlice.actions,
 };
 

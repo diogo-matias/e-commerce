@@ -9,6 +9,18 @@ export type LoginPayloadType = {
     password: string;
 };
 
+export type CreateOrAddCartProductPayloadType = {
+    productId: string;
+    userId: string;
+    showSuccessMessage?: boolean;
+    navigateToCart?: boolean;
+};
+
+export type RemoveCartProductPayloadType = {
+    productId: string;
+    userId: string;
+};
+
 export type GetUserInfoPayloadType = {
     userId: string;
 };

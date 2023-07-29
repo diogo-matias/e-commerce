@@ -1,11 +1,12 @@
 import { getUserInfoParser } from "../../store/modules/user/parser";
 import Api from "../api";
 import {
+    CreateOrAddCartProductPayloadType,
     CreateUserPayloadType,
     GetUserInfoPayloadType,
     LoginPayloadType,
+    RemoveCartProductPayloadType,
 } from "./types";
-// require("dotenv").config();
 
 export class _UserApi {
     api: Api;
@@ -53,6 +54,42 @@ export class _UserApi {
             const response = (await this.api.post(
                 "/user/login",
                 payload
+            )) as any;
+
+            if (response.data.hasError) {
+                throw new Error();
+            }
+
+            return response?.data;
+        } catch (err) {
+            const error = err as Error;
+
+            throw new Error(error.message);
+        }
+    }
+
+    async createOrAddCartProduct(payload: CreateOrAddCartProductPayloadType) {
+        try {
+            const response = (await this.api.post("/cart", payload)) as any;
+
+            if (response.data.hasError) {
+                throw new Error();
+            }
+
+            return response?.data;
+        } catch (err) {
+            const error = err as Error;
+
+            throw new Error(error.message);
+        }
+    }
+
+    async deleteCartProduct(payload: RemoveCartProductPayloadType) {
+        try {
+            const { userId, productId } = payload;
+
+            const response = (await this.api.post(
+                `/cart/${userId}/${productId}?quantity=single`
             )) as any;
 
             if (response.data.hasError) {

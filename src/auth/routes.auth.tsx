@@ -6,5 +6,9 @@ export function PrivateRoutes() {
         (state) => state.user.isAuthenticated
     );
 
-    return isAuthenticated ? <Outlet /> : <Navigate to={"/login"} />;
+    function privateRoutes() {
+        return isAuthenticated ? <Outlet /> : <Navigate to={"/login"} />;
+    }
+
+    return <div>{privateRoutes()}</div>;
 }

@@ -1,15 +1,18 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { StateType } from "./types";
 import { UserApi } from "../../../api/user";
 import {
+    CreateOrAddCartProductPayloadType,
     CreateUserPayloadType,
     GetUserInfoPayloadType,
     LoginPayloadType,
+    RemoveCartProductPayloadType,
 } from "../../../api/user/types";
 import { ToastActions } from "../toast";
 import { ROUTES } from "../../../constants/routes";
 import { useNavigate } from "react-router-dom";
 import { getUserInfoParser } from "./parser";
+import { NavigationActions } from "../navigation";
 
 const initialState: StateType = {
     userInfo: null,
@@ -100,6 +103,8 @@ const login = createAsyncThunk(
                     })
                 );
 
+                dispatch(NavigationActions.navigate(ROUTES.HOME));
+
                 return response as any;
             }
 
@@ -113,7 +118,87 @@ const login = createAsyncThunk(
         } catch (error) {
             dispatch(
                 ToastActions.fail({
-                    message: "Fail to ESTRANHO",
+                    message: "Fail to login",
+                })
+            );
+
+            throw new Error();
+        }
+    }
+);
+
+const createOrAddCartProduct = createAsyncThunk(
+    "@user/createOrAddCartProduct",
+    async (payload: CreateOrAddCartProductPayloadType, { dispatch }) => {
+        try {
+            const { showSuccessMessage, navigateToCart } = payload;
+
+            const response = await UserApi.createOrAddCartProduct(payload);
+
+            const hasError = response.hasError;
+
+            if (!hasError) {
+                dispatch(UserActions.addCardProduct(payload));
+
+                if (showSuccessMessage) {
+                    dispatch(
+                        ToastActions.success({
+                            message: "Added to cart",
+                        })
+                    );
+                }
+
+                if (navigateToCart) {
+                    dispatch(NavigationActions.navigate(ROUTES.CART));
+                }
+
+                return response as any;
+            }
+
+            dispatch(
+                ToastActions.fail({
+                    message: "Fail to get cart",
+                })
+            );
+
+            throw new Error();
+        } catch (error) {
+            dispatch(
+                ToastActions.fail({
+                    message: "Fail to get cart",
+                })
+            );
+
+            throw new Error();
+        }
+    }
+);
+
+const removeCartProduct = createAsyncThunk(
+    "@user/removeCartProduct",
+    async (payload: RemoveCartProductPayloadType, { dispatch }) => {
+        try {
+            const response = await UserApi.deleteCartProduct(payload);
+
+            const hasError = response.hasError;
+
+            if (!hasError) {
+                dispatch(UserActions.removeCartProductAction(payload));
+
+                return response as any;
+            }
+
+            dispatch(
+                ToastActions.fail({
+                    message: "Fail to remove cart product",
+                })
+            );
+
+            throw new Error();
+        } catch (error) {
+            dispatch(
+                ToastActions.fail({
+                    message: "Fail to remove cart product",
                 })
             );
 
@@ -125,7 +210,55 @@ const login = createAsyncThunk(
 const UserSlice = createSlice({
     name: "@user",
     initialState: initialState,
-    reducers: {},
+    reducers: {
+        addCardProduct(
+            state,
+            { payload }: PayloadAction<CreateOrAddCartProductPayloadType>
+        ) {
+            const { productId } = payload;
+
+            if (!state.userInfo) {
+                return;
+            }
+
+            const result = state.userInfo?.products?.map((item) => {
+                if (item.id === productId) {
+                    return {
+                        ...item,
+                        quantity: item.quantity + 1,
+                    };
+                }
+
+                return item;
+            });
+
+            state.userInfo.products = result;
+        },
+        removeCartProductAction(
+            state,
+            { payload }: PayloadAction<RemoveCartProductPayloadType>
+        ) {
+            const { productId } = payload;
+
+            if (!state.userInfo) {
+                return;
+            }
+
+            const result = state.userInfo?.products
+                ?.map((item) => {
+                    if (item.id === productId) {
+                        return {
+                            ...item,
+                            quantity: item.quantity - 1,
+                        };
+                    }
+                    return item;
+                })
+                .filter((item) => item.quantity > 0);
+
+            state.userInfo.products = result;
+        },
+    },
     extraReducers: ({ addCase }) => {
         addCase(createUser.fulfilled, (state, { payload }) => {
             state.userInfo = payload?.data;
@@ -159,6 +292,9 @@ const UserSlice = createSlice({
         addCase(getUserInfo.rejected, (state, { payload }) => {
             state.isGettingUserInfo = false;
         });
+        addCase(removeCartProduct.fulfilled, (state, { payload }) => {
+            return state;
+        });
     },
 });
 
@@ -167,6 +303,8 @@ export const UserActions = {
     createUser,
     getUserInfo,
     login,
+    createOrAddCartProduct,
+    removeCartProduct,
 };
 
 export default UserSlice.reducer;

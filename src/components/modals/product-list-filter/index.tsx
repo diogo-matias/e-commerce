@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BaseButton } from "../../base-button";
 import { BaseInput } from "../../base-input";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -41,14 +41,7 @@ export function ProductListFilterModal(props: ProductListFilterModalPropsType) {
         "appearance-none bg-black h-4 w-4 rounded-full"
     );
 
-    useEffect(() => {
-        console.log(maxPrice);
-        console.log(minPrice);
-    }, [maxPrice, minPrice]);
-
     function handleFilter() {
-        console.log("ENTROU NO FILTER");
-
         const path = location.pathname;
 
         const paramsArray = [

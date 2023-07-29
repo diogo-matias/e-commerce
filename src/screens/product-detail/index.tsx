@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Header } from "../../components/header";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { useEffect } from "react";
@@ -7,15 +7,22 @@ import { formatPrice } from "../../utils/price";
 import { BaseButton } from "../../components/base-button";
 import { Carousel } from "../../components/carousel";
 import { Breakpoint } from "../../utils/breakpoints";
+import { UserActions } from "../../store/modules/user";
+import { ROUTES } from "../../constants/routes";
+import { ToastActions } from "../../store/modules/toast";
 
 export function ProductDetailScreen() {
     const params = useParams();
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const breakpointMd = Breakpoint("md");
 
     const { selectedProduct, products } = useAppSelector(
         (state) => state.ecommerce
     );
+
+    const { isAuthenticated } = useAppSelector((state) => state.user);
+    const userId = useAppSelector((state) => state.user.userInfo?.id);
 
     const suggestedProducts = selectSuggestedProducts();
 
@@ -37,6 +44,47 @@ export function ProductDetailScreen() {
         );
 
         return result;
+    }
+
+    function handleNoAuthentication() {
+        navigate(ROUTES.LOGIN);
+
+        dispatch(
+            ToastActions.fail({
+                message: "You need an account to complete the action",
+            })
+        );
+    }
+
+    function handleAddToCart() {
+        if (!isAuthenticated) {
+            handleNoAuthentication();
+        }
+
+        dispatch(
+            UserActions.createOrAddCartProduct({
+                productId: params.productId ?? "",
+                userId: userId ?? "",
+                showSuccessMessage: true,
+            })
+        );
+    }
+
+    function handleBuy() {
+        if (!isAuthenticated) {
+            handleNoAuthentication();
+        }
+
+        dispatch(
+            UserActions.createOrAddCartProduct({
+                productId: params.productId ?? "",
+                userId: userId ?? "",
+                showSuccessMessage: true,
+                navigateToCart: true,
+            })
+        );
+
+        // navigate(ROUTES.CART);
     }
 
     function renderNoData() {
@@ -87,10 +135,12 @@ export function ProductDetailScreen() {
                         <BaseButton
                             label="Buy Now"
                             className="mb-4 hover:bg-gray-900 transition-all"
+                            onClick={handleBuy}
                         />
                         <BaseButton
                             label="Add to cart"
                             className="bg-green-500 hover:bg-green-400 transition-all"
+                            onClick={handleAddToCart}
                         />
                     </div>
                 </div>
