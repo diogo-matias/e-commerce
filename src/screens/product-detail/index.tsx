@@ -100,7 +100,7 @@ export function ProductDetailScreen() {
 
     function renderProductDetail() {
         return (
-            <div className="flex w-full flex-wrap min-h-[40vh] lg:h-[50vh] ">
+            <div className="flex w-full flex-wrap min-h-[40vh] lg:max-h-[90vh]">
                 <div className="w-full md:w-1/2 flex h-full justify-center md:justify-end ">
                     <div className="md:w-[90%] lg:w-[60%] w-full">
                         <div className="h-[100%] max-w-full overflow-hidden">

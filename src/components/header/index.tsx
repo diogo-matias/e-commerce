@@ -33,6 +33,10 @@ export function Header(props: HeaderPropsType) {
         (state) => state.ecommerce.filter.filteredProductList
     );
 
+    const isAuthenticated = useAppSelector(
+        (state) => state.user.isAuthenticated
+    );
+
     function defineStyle() {
         const is = window.scrollY > styleOffset;
 
@@ -44,7 +48,11 @@ export function Header(props: HeaderPropsType) {
     }
 
     function handleUserIconClick() {
-        navigate(ROUTES.LOGIN);
+        if (!isAuthenticated) {
+            navigate(ROUTES.LOGIN);
+        } else {
+            navigate(ROUTES.ACCOUNT);
+        }
     }
 
     function handleCartIconClick() {
@@ -99,7 +107,7 @@ export function Header(props: HeaderPropsType) {
                 min_price: 0,
             })
         );
-    }, [debounceValue]);
+    }, [debounceValue, dispatch]);
 
     function onSuggestionItemClick(product: ProductType) {
         navigate(ROUTES.PRODUCT_DETAIL.replace(":productId", product.id));

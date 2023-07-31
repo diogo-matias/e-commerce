@@ -5,6 +5,7 @@ import {
     CreateUserPayloadType,
     GetUserInfoPayloadType,
     LoginPayloadType,
+    RemoveAllProductsPayloadType,
     RemoveCartProductPayloadType,
 } from "./types";
 
@@ -86,11 +87,28 @@ export class _UserApi {
 
     async deleteCartProduct(payload: RemoveCartProductPayloadType) {
         try {
-            const { userId, productId } = payload;
+            const { userId, productId, quantity = "single" } = payload;
 
             const response = (await this.api.post(
-                `/cart/${userId}/${productId}?quantity=single`
+                `/cart/${userId}/${productId}?quantity=${quantity}`
             )) as any;
+
+            if (response.data.hasError) {
+                throw new Error();
+            }
+
+            return response?.data;
+        } catch (err) {
+            const error = err as Error;
+
+            throw new Error(error.message);
+        }
+    }
+    async deleteAllCartProducts(payload: RemoveAllProductsPayloadType) {
+        try {
+            const { userId } = payload;
+
+            const response = (await this.api.delete(`/cart/${userId}`)) as any;
 
             if (response.data.hasError) {
                 throw new Error();

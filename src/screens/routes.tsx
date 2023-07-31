@@ -7,6 +7,9 @@ import { PrivateRoutes } from "../auth/routes.auth";
 import { LoginScreen } from "./login";
 import { CartScreen } from "./cart";
 import { RouterService } from "../components/router";
+import { AccountScreen } from "./account";
+import { CheckoutScreen } from "./checkout";
+import { ThanksScreen } from "./thanks";
 
 export default function Router() {
     return (
@@ -26,6 +29,15 @@ export default function Router() {
 
                     <Route element={<PrivateRoutes />}>
                         <Route path={ROUTES.CART} Component={CartScreen} />
+                        <Route path={ROUTES.THANKS} Component={ThanksScreen} />
+                        <Route
+                            path={ROUTES.CHECKOUT}
+                            Component={CheckoutScreen}
+                        />
+                        <Route
+                            path={ROUTES.ACCOUNT}
+                            Component={AccountScreen}
+                        />
                     </Route>
                 </Route>
             </Routes>

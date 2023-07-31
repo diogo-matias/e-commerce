@@ -6,6 +6,7 @@ import {
     CreateUserPayloadType,
     GetUserInfoPayloadType,
     LoginPayloadType,
+    RemoveAllProductsPayloadType,
     RemoveCartProductPayloadType,
 } from "../../../api/user/types";
 import { ToastActions } from "../toast";
@@ -206,6 +207,40 @@ const removeCartProduct = createAsyncThunk(
         }
     }
 );
+const removeAllCartProducts = createAsyncThunk(
+    "@user/removeAllCartProducts",
+    async (payload: RemoveAllProductsPayloadType, { dispatch }) => {
+        try {
+            const response = await UserApi.deleteAllCartProducts(payload);
+
+            const hasError = response.hasError;
+
+            if (!hasError) {
+                dispatch(UserActions.removeAllUserCartProducts());
+
+                dispatch(NavigationActions.navigate(ROUTES.THANKS));
+
+                return response as any;
+            }
+
+            dispatch(
+                ToastActions.fail({
+                    message: "Fail to remove cart product",
+                })
+            );
+
+            throw new Error();
+        } catch (error) {
+            dispatch(
+                ToastActions.fail({
+                    message: "Fail to remove cart product",
+                })
+            );
+
+            throw new Error();
+        }
+    }
+);
 
 const UserSlice = createSlice({
     name: "@user",
@@ -258,6 +293,16 @@ const UserSlice = createSlice({
 
             state.userInfo.products = result;
         },
+        removeAllUserCartProducts(state) {
+            if (!state.userInfo) {
+                return;
+            }
+
+            state.userInfo.products = initialState.userInfo?.products;
+        },
+        logout(state) {
+            return initialState;
+        },
     },
     extraReducers: ({ addCase }) => {
         addCase(createUser.fulfilled, (state, { payload }) => {
@@ -305,6 +350,7 @@ export const UserActions = {
     login,
     createOrAddCartProduct,
     removeCartProduct,
+    removeAllCartProducts,
 };
 
 export default UserSlice.reducer;

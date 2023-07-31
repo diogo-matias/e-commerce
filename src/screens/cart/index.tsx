@@ -86,9 +86,13 @@ export function CartScreen() {
     function formatDescription(description: string) {
         const numberOfCharacters = 40;
 
-        const result = description.slice(0, numberOfCharacters);
+        if (description.length > numberOfCharacters) {
+            const result = description.slice(0, numberOfCharacters);
 
-        return `${result}...`;
+            return `${result}...`;
+        }
+
+        return description;
     }
 
     function handleRemoveOrAddItem(productId: string, add: boolean) {
@@ -186,13 +190,7 @@ export function CartScreen() {
     }
 
     function handleBuy() {
-        // dispatch(
-        //     UserActions.createOrAddCartProduct({
-        //         productId: params.productId,
-        //         userId: userInfo?.id ?? '',
-        //         navigateToCart: true,
-        //     })
-        // );
+        navigate(ROUTES.CHECKOUT);
     }
 
     function renderResumeCard() {

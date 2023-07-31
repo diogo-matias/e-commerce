@@ -1,32 +1,40 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../constants/routes";
 
 export function Categories() {
+    const navigate = useNavigate();
+
     const data = [
         {
             image: "https://img.lojasrenner.com.br/item/636628750/large/3.jpg",
             title: "Camisas",
-            redirect: "",
+            redirect: "BEST_SELLER",
         },
         {
             image: "https://secure-static.arezzo.com.br/medias/sys_master/arezzo/arezzo/h12/hc3/h00/h00/11192777834526/-Home-Ativa-o-Pretty-Shoes-Desk.jpg",
             title: "Sapatilhas",
-            redirect: "",
+            redirect: "BAGS",
         },
         {
             image: "https://secure-static.arezzo.com.br/medias/sys_master/arezzo/arezzo/h2d/h36/h00/h00/11194751713310/-Home-Classy-Cruise-Materiais-Desk-Banner-Principal-4.jpg",
             title: "Sandálias",
-            redirect: "",
+            redirect: "BEST_SELLER",
         },
         {
             image: "https://img.lojasrenner.com.br/item/638457149/large/3.jpg",
             title: "Casaco",
-            redirect: "",
+            redirect: "BAGS",
         },
     ];
 
     const numberOfItemsInRow = 4;
     const [selectedCard, setSelectedCard] = useState<number | null>(null);
+
+    function handleClick(item: any) {
+        navigate(`${ROUTES.PRODUCT_LIST}?category=${item.redirect}`);
+    }
 
     function renderCard(item: any, index: number) {
         const pattern = (index + 1) % numberOfItemsInRow;
@@ -96,6 +104,7 @@ export function Categories() {
                             minHeight: "100%",
                             objectFit: "cover",
                         }}
+                        onClick={() => handleClick(item)}
                     />
                 </div>
             </div>

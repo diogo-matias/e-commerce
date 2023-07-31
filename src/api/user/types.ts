@@ -19,6 +19,11 @@ export type CreateOrAddCartProductPayloadType = {
 export type RemoveCartProductPayloadType = {
     productId: string;
     userId: string;
+    quantity?: "single" | "all";
+};
+
+export type RemoveAllProductsPayloadType = {
+    userId: string;
 };
 
 export type GetUserInfoPayloadType = {
