@@ -30,7 +30,7 @@ export function Header(props: HeaderPropsType) {
     const debounceValue = useDebounce(inputValue, 500);
 
     const filteredProductList = useAppSelector(
-        (state) => state.ecommerce.filter.filteredProductList
+        (state) => state.ecommerce?.filter?.filteredProductList
     );
 
     const isAuthenticated = useAppSelector(
@@ -100,7 +100,7 @@ export function Header(props: HeaderPropsType) {
 
     useEffect(() => {
         dispatch(
-            EcommerceActions.filter({
+            EcommerceActions?.filter({
                 title: debounceValue,
                 category: "",
                 max_price: 999999,
@@ -140,7 +140,7 @@ export function Header(props: HeaderPropsType) {
                         animate={{ opacity: autocompleteOpacity }}
                         className="absolute text-sm overflow-hidden transition-all pt-10 -z-10 bg-gray-100 right-0 left-0 -translate-y-10 rounded-3xl"
                     >
-                        {filteredProductList.map((item, index) => {
+                        {filteredProductList?.map((item, index) => {
                             if (index > 3 || !inputValue) {
                                 return null;
                             }

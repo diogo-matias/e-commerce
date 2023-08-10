@@ -52,7 +52,7 @@ export function ProductListFilterModal(props: ProductListFilterModalPropsType) {
         ];
 
         const params = paramsArray
-            .filter((item) => {
+            ?.filter((item) => {
                 const value = Object.values(item)[0];
                 return Boolean(value);
             })
@@ -185,7 +185,7 @@ export function ProductListFilterModal(props: ProductListFilterModalPropsType) {
             <div
                 className={`${style} transition-all duration-300 fixed z-50 w-[100vw] h-[100vh] backdrop-blur-sm flex items-center justify-center`}
             >
-                <div className="flex flex-col justify-between shadow-lg h-1/2 min-h-[500px] w-[80%] sm:w-[500px] bg-white backdrop-blur-lg rounded-lg p-10">
+                <div className="flex flex-col justify-between shadow-lg h-1/2 min-h-[600px] w-[80%] sm:w-[500px] bg-white backdrop-blur-lg rounded-lg p-10">
                     {renderInputs()}
                     {renderButtons()}
                 </div>

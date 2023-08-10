@@ -1,6 +1,10 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Breakpoint } from "../../utils/breakpoints";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
+import { ROUTES } from "../../constants/routes";
+import { useNavigate } from "react-router-dom";
 
 export function Banner() {
     const imagesArr = [
@@ -8,20 +12,25 @@ export function Banner() {
             desktop:
                 "https://secure-static.arezzo.com.br/medias/sys_master/arezzo/arezzo/h65/h38/h00/h00/11197763813406/Home-72h-Sand-lias-Desk.jpg",
             mobile: "https://secure-static.arezzo.com.br/medias/sys_master/arezzo/arezzo/h5b/he4/h00/h00/11206153142302/Home-Urban-Youth-Mobile.jpg",
+            navigation: ROUTES.PRODUCT_LIST,
         },
         {
             desktop:
                 "https://secure-static.arezzo.com.br/medias/sys_master/arezzo/arezzo/h12/hc3/h00/h00/11192777834526/-Home-Ativa-o-Pretty-Shoes-Desk.jpg",
 
             mobile: "https://secure-static.arezzo.com.br/medias/sys_master/arezzo/arezzo/h77/h1a/h00/h00/11206163628062/ID-Sele-o-at-R-199-Mobile.jpg",
+            navigation: ROUTES.PRODUCT_LIST,
         },
         {
             desktop:
                 "https://secure-static.arezzo.com.br/medias/sys_master/arezzo/arezzo/h2d/h36/h00/h00/11194751713310/-Home-Classy-Cruise-Materiais-Desk-Banner-Principal-4.jpg",
 
             mobile: "https://secure-static.arezzo.com.br/medias/sys_master/arezzo/arezzo/hdb/h49/h00/h00/11206152585246/Home-Sport-Ajuste-Mobile.jpg",
+            navigation: ROUTES.PRODUCT_LIST,
         },
     ];
+
+    const navigate = useNavigate();
 
     const isMobile = Breakpoint("md");
     const animationTimeInMs = isMobile ? 500 : 1000;
@@ -149,7 +158,8 @@ export function Banner() {
                     return (
                         <motion.div
                             key={`image-${index}`}
-                            className="pointer-events-none w-[100vw] h-full"
+                            className=" w-[100vw] h-full cursor-pointer"
+                            onClick={() => navigate(image.navigation)}
                         >
                             <img
                                 style={{
@@ -177,13 +187,13 @@ export function Banner() {
                     onClick={() => handleButtonClick("previous")}
                     className={dotsStyle}
                 >
-                    {"<"}
+                    <FontAwesomeIcon icon={solid("angle-left")} />
                 </div>
                 <div
                     onClick={() => handleButtonClick("next")}
                     className={dotsStyle}
                 >
-                    {">"}
+                    <FontAwesomeIcon icon={solid("angle-right")} />
                 </div>
             </motion.div>
         );

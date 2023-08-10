@@ -27,8 +27,8 @@ export function filterLogic(
 
     const filtersMatch = keys.map((key) => {
         return state.products
-            .map((item) => current(item))
-            .filter((product: any) => {
+            ?.map((item) => current(item))
+            ?.filter((product: any) => {
                 let filterValue = payload[key];
 
                 const productValue = product[key]?.toLowerCase();
@@ -68,8 +68,8 @@ export function filterLogic(
     );
 
     const result = state.products
-        .map((item) => current(item))
-        .filter((product) => {
+        ?.map((item) => current(item))
+        ?.filter((product) => {
             return productsId.includes(product.id);
         });
 
@@ -80,7 +80,7 @@ export function priceFilterLogic(
     products: ProductType[],
     { payload }: PayloadAction<FiltersType>
 ) {
-    const result = products.filter((item) => {
+    const result = products?.filter((item) => {
         if (
             item.price >= payload.min_price &&
             item.price <= payload.max_price

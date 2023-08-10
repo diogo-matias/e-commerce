@@ -15,6 +15,9 @@ import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../constants/routes";
 import { ProductType } from "../../store/modules/ecommerce/types";
 import { formatPrice } from "../../utils/price";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
+import { IconDefinition, IconFamily } from "@fortawesome/fontawesome-svg-core";
 
 export function Carousel(props: CarouselPropsType) {
     const {
@@ -25,24 +28,6 @@ export function Carousel(props: CarouselPropsType) {
         animationSpeed = 1,
         invertAnimation = false,
     } = props;
-
-    const images = [
-        "https://img.lojasrenner.com.br/item/636628750/large/3.jpg",
-        "https://img.lojasrenner.com.br/item/646851656/large/3.jpg",
-        "https://img.lojasrenner.com.br/item/602439601/large/1.jpg",
-        "https://img.lojasrenner.com.br/item/638457149/large/3.jpg",
-        "https://img.lojasrenner.com.br/banner/01-home/230706_HOME_VITRINEPROMO_JEANS_RESP_GERAL_2.png",
-        "https://img.lojasrenner.com.br/item/636628750/large/3.jpg",
-        "https://img.lojasrenner.com.br/item/646851656/large/3.jpg",
-        "https://img.lojasrenner.com.br/item/602439601/large/1.jpg",
-        "https://img.lojasrenner.com.br/item/638457149/large/3.jpg",
-        "https://img.lojasrenner.com.br/banner/01-home/230706_HOME_VITRINEPROMO_JEANS_RESP_GERAL_2.png",
-        "https://img.lojasrenner.com.br/item/636628750/large/3.jpg",
-        "https://img.lojasrenner.com.br/item/646851656/large/3.jpg",
-        "https://img.lojasrenner.com.br/item/602439601/large/1.jpg",
-        "https://img.lojasrenner.com.br/item/638457149/large/3.jpg",
-        "https://img.lojasrenner.com.br/banner/01-home/230706_HOME_VITRINEPROMO_JEANS_RESP_GERAL_2.png",
-    ];
 
     const navigate = useNavigate();
 
@@ -55,10 +40,8 @@ export function Carousel(props: CarouselPropsType) {
 
     const [width, setWidth] = useState(0);
     const [offsetWidth, setOffsetWidth] = useState(0);
-    const [scrollWidth, setScrollWidth] = useState(0);
     const [itemWidth, setItemWidth] = useState(0);
-    const [shouldAnimate, setShouldAnimate] = useState();
-    const [animationXOffset, setAnimationXOffset] = useState(0);
+
     const [canClick, setCanClick] = useState(true);
 
     const animationFlux: number[] = useMemo(() => {
@@ -121,7 +104,6 @@ export function Carousel(props: CarouselPropsType) {
         const scrollWidth = widthItem * products.length;
 
         setItemWidth(widthItem);
-        setScrollWidth(scrollWidth);
         setWidth(Number(scrollWidth) - Number(offsetWidth));
     }, [offsetWidth, products.length, numberOfItemsInRow]);
 
@@ -135,6 +117,14 @@ export function Carousel(props: CarouselPropsType) {
         navigate(ROUTES.PRODUCT_DETAIL.replace(":productId", productId));
     }
 
+    function setArrowClickAnimationConfig(animation: number) {
+        setShouldRepeat(false);
+        setAnimationTime(0.2);
+        setEase("easeOut");
+
+        setAnimation(animation);
+    }
+
     function handleArrowClick(goNext: boolean) {
         const currentXPosition = x.get();
         const maxRight = -width;
@@ -144,20 +134,18 @@ export function Carousel(props: CarouselPropsType) {
         const calc = currentXPosition + xDiff;
 
         if (calc <= maxRight && goNext) {
-            setAnimation(-width);
+            setArrowClickAnimationConfig(-width);
+
             return;
         }
 
         if (calc >= maxLeft && !goNext) {
-            setAnimation(0);
+            setArrowClickAnimationConfig(0);
+
             return;
         }
 
-        setShouldRepeat(false);
-        setAnimationTime(0.2);
-
-        setEase("easeOut");
-        setAnimation(currentXPosition + xDiff);
+        setArrowClickAnimationConfig(currentXPosition + xDiff);
     }
 
     function handleProductClick(item: ProductType) {
@@ -213,10 +201,10 @@ export function Carousel(props: CarouselPropsType) {
         );
     }
 
-    function renderArrow(icon: string) {
+    function renderArrow(icon: IconDefinition) {
         return (
             <div className="w-[70%] pointer-events-auto cursor-pointer aspect-square flex items-center justify-center text-[4rem] text-white">
-                {`${icon}`}
+                <FontAwesomeIcon icon={icon} size="sm" />
             </div>
         );
     }
@@ -240,13 +228,13 @@ export function Carousel(props: CarouselPropsType) {
                     className={`${commonStyle} left-0 bg-gradient-to-r`}
                     onClick={() => handleArrowClick(false)}
                 >
-                    {renderArrow("<")}
+                    {renderArrow(solid("angle-left"))}
                 </div>
                 <div
                     className={`${commonStyle} right-0 bg-gradient-to-l`}
                     onClick={() => handleArrowClick(true)}
                 >
-                    {renderArrow(">")}
+                    {renderArrow(solid("angle-right"))}
                 </div>
             </div>
         );

@@ -29,7 +29,7 @@ export function CheckoutScreen() {
     const container = useRef<any>(null);
 
     const validationSchema = yup.object({
-        number: yup.string().required(),
+        number: yup.number().required(),
         owner: yup.string().required(),
         validity: yup.string().required(),
         cvv: yup.string().required(),
@@ -44,9 +44,6 @@ export function CheckoutScreen() {
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-            // window.alert("opa");
-
-            // console.log(values);
             dispatch(
                 UserActions.removeAllCartProducts({
                     userId: userInfo?.id ?? "",
@@ -281,7 +278,7 @@ export function CheckoutScreen() {
         );
     }
 
-    function renderCart() {
+    function renderCheckout() {
         return (
             <div>
                 <div>
@@ -306,7 +303,7 @@ export function CheckoutScreen() {
             return renderNoData();
         }
 
-        return renderCart();
+        return renderCheckout();
     }
 
     return (

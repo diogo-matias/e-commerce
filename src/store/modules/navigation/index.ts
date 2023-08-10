@@ -13,6 +13,9 @@ const NavigationSlice = createSlice({
         navigate(state, { payload }: PayloadAction<string>) {
             state.route = payload;
         },
+        updateRoute(state) {
+            state.route = `${window.location.pathname}${window.location.search}`;
+        },
     },
     extraReducers: ({ addCase }) => {},
 });

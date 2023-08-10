@@ -8,7 +8,7 @@ function App() {
     const { products } = useAppSelector((state) => state.ecommerce);
 
     useEffect(() => {
-        if (!products.length) {
+        if (!products?.length) {
             dispatch(EcommerceActions.getAllProducts());
         }
     }, []);

@@ -40,7 +40,7 @@ export function Home() {
     }, [breakpointMd]);
 
     return (
-        <div>
+        <div className="pb-10">
             <Header />
             <Banner />
             <div className="container mx-auto">

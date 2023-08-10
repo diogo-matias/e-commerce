@@ -27,11 +27,13 @@ export function BaseInput(props: BaseInputType) {
     }
 
     function renderLabel() {
-        return (
-            <label className="font-thin pl-6" htmlFor={name}>
-                {label}
-            </label>
-        );
+        if (label) {
+            return (
+                <label className="font-thin pl-6" htmlFor={name}>
+                    {label}
+                </label>
+            );
+        }
     }
 
     return (

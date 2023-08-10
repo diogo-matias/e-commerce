@@ -289,7 +289,7 @@ const UserSlice = createSlice({
                     }
                     return item;
                 })
-                .filter((item) => item.quantity > 0);
+                ?.filter((item) => item.quantity > 0);
 
             state.userInfo.products = result;
         },

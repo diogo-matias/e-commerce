@@ -39,7 +39,7 @@ export function ProductDetailScreen() {
     }, [products, selectedProduct, params.productId, dispatch]);
 
     function selectSuggestedProducts() {
-        const result = products.filter(
+        const result = products?.filter(
             (item) => item.category === selectedProduct?.category
         );
 

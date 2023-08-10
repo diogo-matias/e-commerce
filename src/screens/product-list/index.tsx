@@ -41,8 +41,8 @@ export function ProductListScreen() {
     const formatProductList = useCallback(() => {
         const mmc = 12;
         const numberOfItems = page * mmc;
-        const result = filteredProductList.slice(0, numberOfItems);
-        const numberOfPages = Math.ceil(filteredProductList.length / mmc);
+        const result = filteredProductList?.slice(0, numberOfItems);
+        const numberOfPages = Math.ceil(filteredProductList?.length / mmc);
 
         setNumberOfPages(numberOfPages);
         setFormattedProducts(result);
@@ -50,8 +50,6 @@ export function ProductListScreen() {
 
     useEffect(() => {
         dispatch(EcommerceActions.filter(PARAMS));
-
-        console.log("filtrou");
     }, [...paramsValues, products]);
 
     useEffect(() => {
@@ -80,6 +78,15 @@ export function ProductListScreen() {
     }
 
     function renderProductList() {
+        if (!formattedProducts?.length) {
+            return (
+                <div className="absolute top-1/2 left-1/2 translate-y-[-20%] translate-x-[-50%] flex flex-col items-center gap-5">
+                    <FontAwesomeIcon icon={solid("bag-shopping")} size="8x" />
+                    <p className="">NO PRODUCTS AVAILABLE</p>
+                </div>
+            );
+        }
+
         return (
             <div className="transition-all grid grid-cols-12 gap-4">
                 {formattedProducts?.map((item, index) => {

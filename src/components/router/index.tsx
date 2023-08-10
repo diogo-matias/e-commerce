@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { useEffect } from "react";
 import { NavigationActions } from "../../store/modules/navigation";
@@ -6,18 +6,21 @@ import { NavigationActions } from "../../store/modules/navigation";
 export function RouterService() {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
+    const location = useLocation();
 
     const route = useAppSelector((state) => state.navigation.route);
 
     useEffect(() => {
-        const navigateRoute = `${window.location.pathname}${window.location.search}`;
-
-        dispatch(NavigationActions.navigate(navigateRoute));
-    }, [window.location.pathname]);
+        dispatch(NavigationActions.updateRoute());
+    }, [location, dispatch]);
 
     useEffect(() => {
-        navigate(route);
-    }, [route]);
+        const timer = setTimeout(() => {
+            navigate(route);
+        }, 1);
+
+        return () => clearTimeout(timer);
+    }, [route, navigate]);
 
     return <Outlet />;
 }
