@@ -15,7 +15,7 @@ export function BestSellersCarousel(props: BestSellersCarouselPropsType) {
 
     function filterProducts() {
         const result = productsState?.filter(
-            (item) => item.category === "BEST_SELLER"
+            (item) => item.category === "BEST_SELLERS"
         );
 
         return result;
