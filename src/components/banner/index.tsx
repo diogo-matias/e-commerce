@@ -10,23 +10,24 @@ export function Banner() {
     const imagesArr = [
         {
             desktop:
-                "https://secure-static.arezzo.com.br/medias/sys_master/arezzo/arezzo/h65/h38/h00/h00/11197763813406/Home-72h-Sand-lias-Desk.jpg",
-            mobile: "https://secure-static.arezzo.com.br/medias/sys_master/arezzo/arezzo/h5b/he4/h00/h00/11206153142302/Home-Urban-Youth-Mobile.jpg",
+                "https://secure-static.arezzo.com.br/medias/sys_master/arezzo/arezzo/h4d/h47/h00/h00/11281362780190/Metalizados-Desk-1-.jpg",
+            mobile: "https://secure-static.arezzo.com.br/medias/sys_master/arezzo/arezzo/hfc/h2d/h00/h00/11281363042334/Metalizados-Mobile.jpg",
             navigation: ROUTES.PRODUCT_LIST,
+        },
+        {
+            desktop:
+                "https://secure-static.arezzo.com.br/medias/sys_master/arezzo/arezzo/haf/h9c/h00/h00/11258907000862/Home-Studs-Desk.jpg",
+
+            mobile: "https://secure-static.arezzo.com.br/medias/sys_master/arezzo/arezzo/h7a/hcb/h00/h00/11258907263006/Home-Studs-Mobile.jpg",
+            navigation: `${ROUTES.PRODUCT_LIST}?category=BEST_SELLERS`,
         },
         {
             desktop:
                 "https://secure-static.arezzo.com.br/medias/sys_master/arezzo/arezzo/h12/hc3/h00/h00/11192777834526/-Home-Ativa-o-Pretty-Shoes-Desk.jpg",
 
             mobile: "https://secure-static.arezzo.com.br/medias/sys_master/arezzo/arezzo/h77/h1a/h00/h00/11206163628062/ID-Sele-o-at-R-199-Mobile.jpg",
-            navigation: ROUTES.PRODUCT_LIST,
-        },
-        {
-            desktop:
-                "https://secure-static.arezzo.com.br/medias/sys_master/arezzo/arezzo/h2d/h36/h00/h00/11194751713310/-Home-Classy-Cruise-Materiais-Desk-Banner-Principal-4.jpg",
-
-            mobile: "https://secure-static.arezzo.com.br/medias/sys_master/arezzo/arezzo/hdb/h49/h00/h00/11206152585246/Home-Sport-Ajuste-Mobile.jpg",
-            navigation: ROUTES.PRODUCT_LIST,
+            navigation: `${ROUTES.PRODUCT_LIST}?category=SHOES`,
+            //?category=SHOES&max_price=500
         },
     ];
 

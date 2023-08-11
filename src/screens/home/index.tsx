@@ -15,10 +15,6 @@ export function Home() {
     const breakpointMd = Breakpoint("lg");
     const dispatch = useAppDispatch();
 
-    // useEffect(() => {
-    //     dispatch(EcommerceActions.getAllProducts());
-    // }, []);
-
     const renderBestSellersCarousel = useCallback(() => {
         let itemsInRow = 5;
 

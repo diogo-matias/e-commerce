@@ -23,7 +23,7 @@ export function CategoriesCarousel(props: { itemsInARow: number }) {
                     invertAnimation={true}
                     itemsInARow={itemsInARow}
                     showControllers={false}
-                    animationSpeed={8}
+                    animationSpeed={2}
                 />
             </div>
         </div>

@@ -88,14 +88,14 @@ export function ProductListScreen() {
         }
 
         return (
-            <div className="transition-all grid grid-cols-12 gap-4">
+            <div className="grid grid-cols-12 gap-4">
                 {formattedProducts?.map((item, index) => {
                     const key = `${item.title}-${index}`;
 
                     return (
                         <div
                             key={key}
-                            className="transition-all col-span-6 md:col-span-3 lg:col-span-2"
+                            className="col-span-6 md:col-span-3 lg:col-span-2"
                         >
                             <Product product={item} />
                         </div>

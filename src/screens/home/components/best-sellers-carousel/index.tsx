@@ -32,9 +32,13 @@ export function BestSellersCarousel(props: BestSellersCarouselPropsType) {
                     <span className="font-semibold">BEST</span> SELLERS
                 </p>
             </div>
-            <Carousel itemsInARow={itemsInARow} products={products} />
+            <Carousel
+                itemsInARow={itemsInARow}
+                products={products}
+                numberOfCharactersOnTitle={50}
+            />
             <div
-                className="h-12 w-full md:w-[50%] lg:w-[25%] mb-10 mt-5  bg-black text-white cursor-pointer mx-auto flex items-center justify-center"
+                className="h-12 w-full md:w-[50%] lg:w-[25%] mb-10 mt-10 bg-black text-white cursor-pointer mx-auto flex items-center justify-center"
                 onClick={handleNavigation}
             >
                 <p className="font-light tracking-widest">SEE MORE</p>

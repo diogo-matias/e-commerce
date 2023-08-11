@@ -14,7 +14,7 @@ import { CarouselPropsType } from "./types";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../constants/routes";
 import { ProductType } from "../../store/modules/ecommerce/types";
-import { formatPrice } from "../../utils/price";
+import { formatPrice, formatString } from "../../utils/price";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { IconDefinition, IconFamily } from "@fortawesome/fontawesome-svg-core";
@@ -27,6 +27,7 @@ export function Carousel(props: CarouselPropsType) {
         showControllers = true,
         animationSpeed = 1,
         invertAnimation = false,
+        numberOfCharactersOnTitle = 20,
     } = props;
 
     const navigate = useNavigate();
@@ -168,7 +169,7 @@ export function Carousel(props: CarouselPropsType) {
                             style={{
                                 width: itemWidth,
                             }}
-                            className={`${padding} aspect-[9/16] h-full`}
+                            className={`${padding} aspect-[11/16] h-full`}
                             onClick={() => handleProductClick(item)}
                         >
                             <img
@@ -188,7 +189,10 @@ export function Carousel(props: CarouselPropsType) {
                                 className="text-[0.8rem] md:text-[1rem]"
                             >
                                 <p className="font-light mt-[2%] ">
-                                    {item.title}
+                                    {formatString(
+                                        item.title,
+                                        numberOfCharactersOnTitle
+                                    )}
                                 </p>
                                 <p className="font-bold">
                                     {formatPrice(item.price)}
@@ -244,7 +248,7 @@ export function Carousel(props: CarouselPropsType) {
         <motion.div
             ref={banner}
             style={{
-                height: `${(itemWidth * 16) / 9 + 40}px`,
+                height: `${(itemWidth * 16) / 11 + 40}px`,
             }}
             className="relative w-full overflow-hidden"
         >

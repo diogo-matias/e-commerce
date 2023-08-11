@@ -3,3 +3,9 @@ export function formatPrice(number?: number) {
 
     return `$ ${result}`.replace(".", ",");
 }
+
+export function formatString(str: string, end: number) {
+    const result = str.slice(0, end);
+
+    return `${result}...`;
+}

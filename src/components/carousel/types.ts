@@ -8,4 +8,5 @@ export type CarouselPropsType = {
     animationSpeed?: number;
     invertAnimation?: boolean;
     onClick?: () => void;
+    numberOfCharactersOnTitle?: number;
 };

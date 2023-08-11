@@ -8,24 +8,24 @@ export function Categories() {
 
     const data = [
         {
-            image: "https://img.lojasrenner.com.br/item/636628750/large/3.jpg",
-            title: "Camisas",
-            redirect: "BEST_SELLER",
-        },
-        {
-            image: "https://secure-static.arezzo.com.br/medias/sys_master/arezzo/arezzo/h12/hc3/h00/h00/11192777834526/-Home-Ativa-o-Pretty-Shoes-Desk.jpg",
-            title: "Sapatilhas",
+            image: "https://img.lojasrenner.com.br/item/631805067/large/3.jpg",
+            title: "bags",
             redirect: "BAGS",
         },
         {
-            image: "https://secure-static.arezzo.com.br/medias/sys_master/arezzo/arezzo/h2d/h36/h00/h00/11194751713310/-Home-Classy-Cruise-Materiais-Desk-Banner-Principal-4.jpg",
-            title: "Sandálias",
+            image: "https://docs.google.com/uc?id=1VZIQmEEH0jNY5vXHed4GDbhHM4eVnQXt",
+            title: "bests sellers",
             redirect: "BEST_SELLER",
         },
         {
-            image: "https://img.lojasrenner.com.br/item/638457149/large/3.jpg",
-            title: "Casaco",
-            redirect: "BAGS",
+            image: "https://secure-static.arezzo.com.br/medias/sys_master/arezzo/arezzo/h4d/h47/h00/h00/11281362780190/Metalizados-Desk-1-.jpg",
+            title: "",
+            redirect: "BEST_SELLER",
+        },
+        {
+            image: "https://img.lojasrenner.com.br/item/794449474/large/3.jpg",
+            title: "shoes",
+            redirect: "SHOES",
         },
     ];
 
@@ -73,11 +73,12 @@ export function Categories() {
                         className={`${textColor} w-full transition-all duration-500 h-full absolute z-10  flex items-center justify-center bg-white bg-opacity-20 break-words pointer-events-none`}
                     >
                         <p
-                            className="text-[1.5rem] lg:text-[2.5rem] md:text-[1.5rem] font-bold "
+                            className="text-[1.5rem] lg:text-[2.5rem] md:text-[1.5rem] font-bold"
                             style={{
                                 textShadow: isSelected
                                     ? ""
                                     : "0px 0px 1em rgba(0,0,0,0.3)",
+                                whiteSpace: "nowrap",
                             }}
                         >
                             {item.title.toUpperCase()}
