@@ -113,8 +113,9 @@ export function ProductListScreen() {
                 <div className="absolute left-0 w-screen pb-4 py-2 border-b-[0.5px] border-gray-300">
                     <div className="container flex gap-10 items-center justify-between mx-auto px-4 sm:px-6 md:px-2 ">
                         <p className="text-3xl font-thin tracking-widest ">
-                            {paramsState.category.replace("_", " ") ??
-                                "ALL PRODUCTS"}
+                            {paramsState.category
+                                ? paramsState.category.replace("_", " ")
+                                : "ALL PRODUCTS"}
                         </p>
                         <BaseButton
                             className="px-10 py-4 bg-transparent sm:bg-black "
