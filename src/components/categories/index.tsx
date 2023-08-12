@@ -14,7 +14,7 @@ export function Categories() {
         },
         {
             image: "https://docs.google.com/uc?id=1VZIQmEEH0jNY5vXHed4GDbhHM4eVnQXt",
-            title: "bests sellers",
+            title: "best sellers",
             redirect: "BEST_SELLER",
         },
         {
