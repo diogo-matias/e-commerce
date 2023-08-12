@@ -17,6 +17,7 @@ export function RouterService() {
     useEffect(() => {
         const timer = setTimeout(() => {
             navigate(route);
+            window.scrollTo(0, 0);
         }, 1);
 
         return () => clearTimeout(timer);
