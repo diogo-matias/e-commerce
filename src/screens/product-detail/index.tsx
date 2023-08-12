@@ -123,7 +123,9 @@ export function ProductDetailScreen() {
                         </div>
                         <div className="w-full mt-5">
                             <p className="font-bold">Category</p>
-                            <p className="">{selectedProduct?.category}</p>
+                            <p className="font-light">
+                                {selectedProduct?.category}
+                            </p>
                         </div>
                     </div>
                     <div className="mt-10 flex-col">
