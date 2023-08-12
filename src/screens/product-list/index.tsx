@@ -33,6 +33,7 @@ export function ProductListScreen() {
             ? Number(params.get("max_price"))
             : 0,
     };
+    const [paramsState, setParamsState] = useState(PARAMS);
 
     const paramsValues = Object.values(PARAMS) ?? [];
 
@@ -50,6 +51,7 @@ export function ProductListScreen() {
 
     useEffect(() => {
         dispatch(EcommerceActions.filter(PARAMS));
+        setParamsState(PARAMS);
     }, [...paramsValues, products]);
 
     useEffect(() => {
@@ -111,7 +113,8 @@ export function ProductListScreen() {
                 <div className="absolute left-0 w-screen pb-4 py-2 border-b-[0.5px] border-gray-300">
                     <div className="container flex gap-10 items-center justify-between mx-auto px-4 sm:px-6 md:px-2 ">
                         <p className="text-3xl font-thin tracking-widest ">
-                            ALL PRODUCTS
+                            {paramsState.category.replace("_", " ") ??
+                                "ALL PRODUCTS"}
                         </p>
                         <BaseButton
                             className="px-10 py-4 bg-transparent sm:bg-black "
