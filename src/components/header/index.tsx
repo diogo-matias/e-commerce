@@ -225,7 +225,7 @@ export function Header(props: HeaderPropsType) {
         return (
             <div
                 onClick={onClick}
-                className="flex items-center px-3 h-10 border-y py-6 cursor-pointer"
+                className="flex items-center px-3 h-10 hover:bg-gray-200 transition-all py-6 cursor-pointer"
             >
                 <div className="pr-3">
                     <FontAwesomeIcon icon={icon} />
@@ -255,7 +255,7 @@ export function Header(props: HeaderPropsType) {
                             ease: "easeOut",
                             duration: 0.2,
                         }}
-                        className="sm:hidden absolute h-full w-[40vw] bg-gray-100 right-0"
+                        className="sm:hidden absolute h-full w-[50vw] backdrop-blur-md bg-gray-50/80 right-0"
                         style={{
                             boxShadow: "-10px 0px 15px rgba(0,0,0,0.2)",
                         }}

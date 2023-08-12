@@ -27,10 +27,6 @@ export function ProductDetailScreen() {
     const suggestedProducts = selectSuggestedProducts();
 
     useEffect(() => {
-        // if (!products) {
-        //     dispatch(EcommerceActions.getAllProducts());
-        // }
-
         dispatch(
             EcommerceActions.setSelectedProduct({
                 productId: params.productId ?? "",
@@ -83,8 +79,6 @@ export function ProductDetailScreen() {
                 navigateToCart: true,
             })
         );
-
-        // navigate(ROUTES.CART);
     }
 
     function renderNoData() {
@@ -100,21 +94,20 @@ export function ProductDetailScreen() {
 
     function renderProductDetail() {
         return (
-            <div className="flex w-full flex-wrap min-h-[40vh] lg:max-h-[90vh]">
-                <div className="w-full md:w-1/2 flex h-full justify-center md:justify-end ">
-                    <div className="md:w-[90%] lg:w-[60%] w-full">
-                        <div className="h-[100%] max-w-full overflow-hidden">
-                            <img
-                                src={selectedProduct?.image}
-                                alt={selectedProduct?.title}
-                                className="w-full object-cover"
-                            />
-                        </div>
+            <div className="flex w-full flex-wrap min-h-[40vh] justify-center">
+                <div className="flex justify-center lg:justify-end mb-10 lg:w-[50%] w-full">
+                    <div className="h-[100%] max-w-full overflow-hidden">
+                        <img
+                            src={selectedProduct?.image}
+                            alt={selectedProduct?.title}
+                            className="w-full object-cover"
+                        />
                     </div>
                 </div>
-                <div className="w-full md:w-1/2 lg:w-1/4 md:pl-16 md:px-0 px-10 mt-10 md:mt-0">
+
+                <div className="w-full lg:w-[40%] lg:pl-14 ">
                     <div className="border-b pb-4">
-                        <p className="text-3xl tracking-tight mb-2">
+                        <p className="text-3xl tracking-tight mb-2 font-bold">
                             {selectedProduct?.title}
                         </p>
                         <p className="text-2xl font-light">
@@ -124,7 +117,9 @@ export function ProductDetailScreen() {
                     <div className="border-b pb-4">
                         <div className="w-full mt-5">
                             <p className="font-bold">Description</p>
-                            <p className="">{selectedProduct?.description}</p>
+                            <p className="font-light">
+                                {selectedProduct?.description}
+                            </p>
                         </div>
                         <div className="w-full mt-5">
                             <p className="font-bold">Category</p>
@@ -152,8 +147,8 @@ export function ProductDetailScreen() {
         const itemsInARow = breakpointMd ? 2 : 4;
 
         return (
-            <div className="w-full self-center flex justify-center mt-10">
-                <div className="w-full px-10 md:px-0 lg:w-[60%] border-t pt-5">
+            <div className="w-full self-center flex justify-center border-t mt-10">
+                <div className="w-full pt-5">
                     <p className="mb-5 text-xl font-thin">Related Products</p>
                     <Carousel
                         products={suggestedProducts}
@@ -167,7 +162,7 @@ export function ProductDetailScreen() {
 
     function renderContent() {
         return (
-            <div>
+            <div className="w-[90%] md:w-[70vw] lg:w-[80vw] mx-auto max-w-[1280px]">
                 {renderProductDetail()}
                 {renderProductSuggestions()}
             </div>

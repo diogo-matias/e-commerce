@@ -59,8 +59,9 @@ export function LoginScreen() {
             email: "",
             password: "",
         },
-        onSubmit: (values) => {
+        onSubmit: (values, { resetForm }) => {
             dispatch(UserActions.createUser(values));
+            resetForm();
         },
         validationSchema: registerValidationSchema,
     });
@@ -70,8 +71,9 @@ export function LoginScreen() {
             email: "",
             password: "",
         },
-        onSubmit: (values) => {
+        onSubmit: (values, { resetForm }) => {
             dispatch(UserActions.login(values));
+            resetForm();
         },
         validationSchema: loginValidationSchema,
     });
