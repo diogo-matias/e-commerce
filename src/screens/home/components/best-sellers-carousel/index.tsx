@@ -38,7 +38,7 @@ export function BestSellersCarousel(props: BestSellersCarouselPropsType) {
                 numberOfCharactersOnTitle={50}
             />
             <div
-                className="h-12 w-full md:w-[50%] lg:w-[25%] mb-10 mt-10 bg-black text-white cursor-pointer mx-auto flex items-center justify-center"
+                className="h-12 mx-auto w-[90%] md:w-[50%] lg:w-[25%] mb-10 mt-10 bg-black text-white cursor-pointer flex items-center justify-center"
                 onClick={handleNavigation}
             >
                 <p className="font-light tracking-widest">SEE MORE</p>
